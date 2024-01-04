@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/UI/rangeslider.css') }}">
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+
+
+{% endblock %}
+
+{% block title %} {{ data.building.name }} {% endblock %}
+
+{% block content %}
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+
+    <div class="modal modal-gallery">
+        <div class="gallery-modal">
+            <button class="modal-x-btn" id="gallery-x">X</button>
+            <div class="gallery-modal-wrapper">
+                <div class="gallery-modal-view">
+                    <button class="gallery-btn" id="gallery-prev">
+                        <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                    </button>
+                    <button class="gallery-btn" id="gallery-next">
+                        <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                    </button>
+                    <div class="gallery-modal-view-wrapper">
+                    </div>
+                </div>
+                <div class="gallery-modal-slider">
+                    <div class="gallery-modal-slider-wrapper">
+                        {% for image in data.building_images %}
+                        <div class="gallery-modal-slider-element" 
+                            style="
+                                width: 100%;
+                                height: 100%;
+                                width: 90px;
+                                max-height: 70px;
+                                background-image: url({{ url_for('static', filename='assets/' + image.type|string + '/' + image.group_id_for_image|string + '/' + image.file_name|string) }});
+                                background-size: cover;
+                                border-radius: 10px;
+                                transition: .1s linear;
+                                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                                margin: 0 10px;
+                                cursor: pointer;
+                            "
+                        ></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal modal-callback">
+        <div class="modal-callback-wrapper">
+            <button class="modal-x-btn" id="modal-callback-x">X</button>
+            <div class="callback-logo">
+                <img loading="lazy" src="{{ url_for('static', filename='assets/Logo.svg') }}" alt="Dwellers Co">
+            </div>
+            <div class="callback-form">
+                <div class="callback-name-container">
+                    <input id="name-input" type="text" placeholder="{{ data.locale.building.input_forms.modal_name }}" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %}class="callback-form-input">
+                    <input id="surname-input" type="text" placeholder="{{ data.locale.building.input_forms.modal_surname }}" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="callback-form-input">
+                </div>
+
+                <div class="callback-container">
+                    <input id="email-input" type="email" placeholder="{{ data.locale.building.input_forms.modal_mail }}" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="callback-form-input">
+                    <br>
+                    
+                    <input id="number-input" type="number" placeholder="{{ data.locale.building.input_forms.modal_phone }}" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="callback-form-input">
+                    <br>
+                </div>
+                
+                
+                <textarea name="callback-description" id="callback-description" cols="30" rows="10" placeholder='Enter description' ></textarea>
+
+                <input type="text" id="builder-id-value" value="{{ data.builder.id }}" style="display: none; opacity: 0;">
+                <input type="text" id="building-id-value" value="{{ data.building.id }}" style="display: none; opacity: 0;">
+                <button onclick="sendCallBackMail()" id="callback-button" class="blue-btn modal-callback-btn">{{ data.locale.building.buttons.modal_call_me }}</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="second-header-nav apart-nav">
+        <div class="second-header-container container">
+            <div class="second-header-content">
+                <ul class="second-header-nav-list">
+                    <li class="second-header-nav-item"><a href="/#search">{{ data.locale.building.text.nav_search }}</a></li>
+                    <li class="second-header-nav-item"><a href="#map">{{ data.locale.building.text.nav_map }}</a></li>
+                    <li class="second-header-nav-item"><a href="#flats">{{ data.locale.building.text.nav_flats }}</a></li>
+                    <li class="second-header-nav-item"><a href="#popular">{{ data.locale.building.text.nav_similar }}</a></li>
+                    <li class="second-header-nav-item"><a href="#about">{{ data.locale.building.text.nav_about }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="apartment-page-section">
+        <div class="apartment-page-main">
+            {% if data.building_images %}
+            <div class="apartment-page-main-bgi" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%), url({{ url_for('static', filename='assets/' + data.building_images[0].type|string + '/' + data.building_images[0].group_id_for_image|string + '/' + data.building_images[0].file_name|string) }}); background-repeat: no-repeat; background-size: cover;">
+            {% else %}
+            <div class="apartment-page-main-bgi" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%); background-repeat: no-repeat; background-size: cover;">
+            {% endif %}
+                <div class="apartment-page-main-content">
+                    <div class="apartment-page-main-content-title">{{ data.building.name }}</div>
+                    {% if data.building.min_flats_price != -1 %}
+                    <div class="apartment-page-main-content-price">{{ data.locale.building.text.flats_starting }} $<span class='price'>{{ data.building.min_flats_price }}</span></div>
+                    {% else %}
+                    <div class="apartment-page-main-content-price price">{{ data.locale.building.text.no_available_flats }}</div>
+                    {% endif %}
+                    <div class="apartment-page-main-content-btns">
+                        <button class="apartment-page-main-content-btn blue-btn" id="callback-btn" style="width: 200px;">{{ data.locale.building.buttons.call_back }}</button>
+                    </div>
+                    <div class="apartment-page-main-additional-btns">
+                        <button class="apartment-page-main-gallery-btn blue-btn" id="gallery-void-btn">{{ data.locale.building.buttons.gallery }}</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="apartment-info-section">
+        <div class="apartment-info-container container">
+            <div class="apartment-info-wrapper">
+                
+                <div class="apartment-info-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                    <div class="apartment-info-element-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="18" viewBox="0 0 13 18" fill="none">
+                            <path d="M0 18V0H7C8.66667 0 10.0833 0.583333 11.25 1.75C12.4167 2.91667 13 4.33333 13 6C13 7.66667 12.4167 9.08333 11.25 10.25C10.0833 11.4167 8.66667 12 7 12H4V18H0ZM4 8H7.2C7.75 8 8.22083 7.80417 8.6125 7.4125C9.00417 7.02083 9.2 6.55 9.2 6C9.2 5.45 9.00417 4.97917 8.6125 4.5875C8.22083 4.19583 7.75 4 7.2 4H4V8Z" fill="#1C1B1F"/>
+                        </svg>
+                    </div>
+                    <div class="apartment-info-element-title">{{ data.locale.building.text.parking }}</div>
+                    <div class="apartment-info-element-text">{{ data.building.parking }}</div>
+                </div>
+
+                <div class="apartment-info-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                    <div class="apartment-info-element-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <mask id="mask0_1701_23" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_1701_23)">
+                              <path d="M5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V6C3 5.45 3.19583 4.97917 3.5875 4.5875C3.97917 4.19583 4.45 4 5 4H6V2H8V4H16V2H18V4H19C19.55 4 20.0208 4.19583 20.4125 4.5875C20.8042 4.97917 21 5.45 21 6V20C21 20.55 20.8042 21.0208 20.4125 21.4125C20.0208 21.8042 19.55 22 19 22H5ZM5 20H19V10H5V20ZM5 8H19V6H5V8ZM12 14C11.7167 14 11.4792 13.9042 11.2875 13.7125C11.0958 13.5208 11 13.2833 11 13C11 12.7167 11.0958 12.4792 11.2875 12.2875C11.4792 12.0958 11.7167 12 12 12C12.2833 12 12.5208 12.0958 12.7125 12.2875C12.9042 12.4792 13 12.7167 13 13C13 13.2833 12.9042 13.5208 12.7125 13.7125C12.5208 13.9042 12.2833 14 12 14ZM8 14C7.71667 14 7.47917 13.9042 7.2875 13.7125C7.09583 13.5208 7 13.2833 7 13C7 12.7167 7.09583 12.4792 7.2875 12.2875C7.47917 12.0958 7.71667 12 8 12C8.28333 12 8.52083 12.0958 8.7125 12.2875C8.90417 12.4792 9 12.7167 9 13C9 13.2833 8.90417 13.5208 8.7125 13.7125C8.52083 13.9042 8.28333 14 8 14ZM16 14C15.7167 14 15.4792 13.9042 15.2875 13.7125C15.0958 13.5208 15 13.2833 15 13C15 12.7167 15.0958 12.4792 15.2875 12.2875C15.4792 12.0958 15.7167 12 16 12C16.2833 12 16.5208 12.0958 16.7125 12.2875C16.9042 12.4792 17 12.7167 17 13C17 13.2833 16.9042 13.5208 16.7125 13.7125C16.5208 13.9042 16.2833 14 16 14ZM12 18C11.7167 18 11.4792 17.9042 11.2875 17.7125C11.0958 17.5208 11 17.2833 11 17C11 16.7167 11.0958 16.4792 11.2875 16.2875C11.4792 16.0958 11.7167 16 12 16C12.2833 16 12.5208 16.0958 12.7125 16.2875C12.9042 16.4792 13 16.7167 13 17C13 17.2833 12.9042 17.5208 12.7125 17.7125C12.5208 17.9042 12.2833 18 12 18ZM8 18C7.71667 18 7.47917 17.9042 7.2875 17.7125C7.09583 17.5208 7 17.2833 7 17C7 16.7167 7.09583 16.4792 7.2875 16.2875C7.47917 16.0958 7.71667 16 8 16C8.28333 16 8.52083 16.0958 8.7125 16.2875C8.90417 16.4792 9 16.7167 9 17C9 17.2833 8.90417 17.5208 8.7125 17.7125C8.52083 17.9042 8.28333 18 8 18ZM16 18C15.7167 18 15.4792 17.9042 15.2875 17.7125C15.0958 17.5208 15 17.2833 15 17C15 16.7167 15.0958 16.4792 15.2875 16.2875C15.4792 16.0958 15.7167 16 16 16C16.2833 16 16.5208 16.0958 16.7125 16.2875C16.9042 16.4792 17 16.7167 17 17C17 17.2833 16.9042 17.5208 16.7125 17.7125C16.5208 17.9042 16.2833 18 16 18Z" fill="#1C1B1F"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="apartment-info-element-title">{{ data.locale.building.text.stage }}</div>
+                    <div class="apartment-info-element-text">{{ data.building.type_of_building }}</div>
+                </div>
+
+                <div class="apartment-info-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                    <div class="apartment-info-element-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M0 18V4H4V0H14V8H18V18H10V14H8V18H0ZM2 16H4V14H2V16ZM2 12H4V10H2V12ZM2 8H4V6H2V8ZM6 12H8V10H6V12ZM6 8H8V6H6V8ZM6 4H8V2H6V4ZM10 12H12V10H10V12ZM10 8H12V6H10V8ZM10 4H12V2H10V4ZM14 16H16V14H14V16ZM14 12H16V10H14V12Z" fill="#1C1B1F"/>
+                        </svg>
+                    </div>
+                    <div class="apartment-info-element-title">{{ data.locale.building.text.city }}</div>
+                    <div class="apartment-info-element-text">{{ data.building.city }}</div>
+                </div>
+
+                <div class="apartment-info-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                    <div class="apartment-info-element-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="17" viewBox="0 0 15 17" fill="none">
+                            <path d="M0 17V0H9L9.4 2H15V12H8L7.6 10H2V17H0ZM9.65 10H13V4H7.75L7.35 2H2V8H9.25L9.65 10Z" fill="#1C1B1F"/>
+                        </svg>
+                    </div>
+                    <div class="apartment-info-element-title">{{ data.locale.building.text.area }}</div>
+                    <div class="apartment-info-element-text">{{ data.building.country }}</div>
+                </div>
+        </div>
+    </section>
+
+    <section class="apartment-mapblock-section">
+        <div class="apartment-mapblock-container">
+            <div class="apartment-mapblock-title container">{{ data.locale.building.text.on_map }}</div>
+
+            <div id="mapWrapper" class="map-wrapper">
+                <div id="map" class="map"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="apartment-flatlist-section">
+        <div class="apartment-flatlist-container container">
+            {% if data.building.min_flats_price != -1 %}
+            <div id="flats" class="apartment-flatlist-title">{{ data.locale.building.text.in_apart }} {{ data.building.name }}</div>
+            {% else %}
+            <div id="flats" class="apartment-flatlist-title"></div>
+            {% endif %}
+
+            <div class="apartment-flatlist-wrapper">
+                {% for grouped_flats_id, flats in data.grouped_flats.items() %}
+                {% for flat in flats %}
+                <div class="apartment-flatlist-element">
+                    <div class="plan-wrapper">
+                        <img loading="lazy" src="{{ url_for('static', filename='assets/' + flat.type|string + '/' + flat.group_id_for_image|string + '/' + flat.file_name|string) }}" alt="{{ data.locale.building.text.scheme_missing }}">
+                    </div>
+                    {% if grouped_flats_id == 0 %}
+                    <div class="apartment-flatlist-element-rooms">{{ data.locale.building.text.studio }}</div>
+                    {% else %}
+                    <div class="apartment-flatlist-element-rooms">{{ grouped_flats_id }}{{ data.locale.building.text.room }}</div>
+                    {% endif %}
+                    <div class="apartment-flatlist-element-price">$<span class='price'>{{ flat.price }}</span></div>
+                    <div class="apartment-flatlist-element-sqrt">{{ flat.all_size_m2 }} {{ data.locale.building.text.m2 }}</div>
+                    <div class="apartment-flatlist-element-plan" style="color: blue;">{{ data.locale.building.text.plan }}</div>
+                    <div class="apartment-flatlist-element-flats" style="color: blue; cursor: pointer;">
+                        <div class="apartment-flatlist-element-href" style="color: blue; cursor: pointer;">
+                            <a class="apartment-flatlist-element-href-a" href="/flat?flat_id={{ flat.id }}">{{ data.locale.building.text.go }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="apartment-simular-section">
+        <div class="apartment-simular-container container">
+            <div id="popular" class="apartment-similar-title">{{ data.locale.building.text.similar }}</div>
+            <div class="apartment-similar-card-wrapper">
+                {% for building in data.simular_buildings %}
+                    <div class="card" >
+                        <a href="{{ 'building?building_id=' + building.id|string }}">
+                            <div class="card-content">
+                                <div class="card-img" style="background-repeat: no-repeat; background-size: cover; background-image: url({{ url_for('static', filename='assets/' + building.type|string + '/' + building.group_id_for_image|string + '/' + building.file_name|string) }})">
+                                    
+                                </div>
+                                <div class="card-text">
+                                    <div class="JKName">
+                                        <a>{{ building.name }}</a>
+                                    </div>
+                                    <div class="card-price">
+                                        {% if building.min_flats_price != -1 %}
+                                        {{ data.locale.building.text.start_from }} $<span class='price'>{{ building.min_flats_price }}</span>
+                                        {% else %}
+                                        {{ data.locale.building.text.no_available_flats }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-location">
+                                        {{ building.city }}, {{ building.country }}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="apartment-page-about-bldr" id="about">
+        <div class="builder-page-about-builder">
+            <div class="about-builder-content container">
+                <div class="about-builder-left-colum">
+                    <div class="about-builder-title"><a href="/builder?builder_id={{ data.builder.id }}">{{ data.locale.building.text.about }} {{ data.builder.name }}</a></div>
+                    <div class="about-builder-description">{{ data.builder.info }}</div>
+                </div>
+                <div class="about-builder-right-colum">
+                    <div class="about-builder-right-colum-text">
+                        <div class="about-builder-year">
+                            <div class="about-builder-year-title">{{ data.builder.foundation_year }}</div>
+                            <div class="about-builder-year-description">{{ data.locale.building.text.foundation_year }}</div>
+                        </div>
+                        <div class="about-builder-done-proj">
+                            <div class="about-builder-done-proj-title">{{ data.builder.completed_projects }}</div>
+                            <div class="about-builder-done-proj-description">{{ data.locale.building.text.buildings_completed }}</div>
+                        </div>
+                        <div class="about-builder-inprocess">
+                            <div class="about-builder-inprocess-title">{{ data.builder.projects_in_process }}</div>
+                            <div class="about-builder-inprocess-description">{{ data.locale.building.text.in_process }}</div>
+                        </div>
+                    </div>
+                    <div class="about-builder-right-colum-btn">
+                        <img loading="lazy" src="{{ url_for('static', filename='assets/GalkaForBuilder.svg') }}" alt="">
+                        {% if data.builder.trusted %}
+                        <div class="about-builder-right-colum-btn-text">
+                            {{ data.locale.building.text.reliable_developer }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<!--<script src="https://api-maps.yandex.ru/2.1/?lang=en_US&amp;apikey=<ваш API-ключ>" type="text/javascript"></script>
+<script>
+    ymaps.ready(init);
+
+    function init() {
+    window.map = new ymaps.Map("map", {
+        center: [{{ data.building.coord_x }}, {{ data.building.coord_y }}],
+        zoom: 15
+    });
+
+    window.map.geoObjects.add(new ymaps.Placemark([{{ data.building.coord_x }}, {{ data.building.coord_y }}], {}, {}));
+
+    // controls rools:
+    window.map.controls.remove('geolocationControl'); 
+    window.map.controls.remove('searchControl');
+    window.map.controls.remove('trafficControl'); 
+    window.map.controls.remove('typeSelector'); 
+    window.map.controls.remove('fullscreenControl'); 
+    window.map.controls.remove('zoomControl'); 
+    window.map.controls.remove('rulerControl'); 
+    
+    // behaviors rools:
+    // window.map.behaviors.disable(['scrollZoom']); 
+}
+    
+</script> 
+-->
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZHdlbGxlcnNjb3JwIiwiYSI6ImNsbGNoY24wMjAxZngzZG56NnJ6bnZsMzQifQ.EVqKELsfXagEQ43V7pd_vQ';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/dwellerscorp/clldvi9c3011701qp426hfxxe',
+    center: [{{ data.building.coord_y }}, {{ data.building.coord_x }}],
+    zoom: 15
+  });
+
+  const marker = new mapboxgl.Marker({
+    draggable: false
+    }).setLngLat([{{ data.building.coord_y }}, {{ data.building.coord_x }}])
+    .addTo(map);
+
+</script>
+
+
+
+
+<script src="{{ url_for('static', filename='scripts/change_lang.js') }}"></script>
+
+<script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/burgerMenu.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/auth.modal.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/gallery.modal.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/callback.modal.js') }}"></script>
+
+{% endblock %}

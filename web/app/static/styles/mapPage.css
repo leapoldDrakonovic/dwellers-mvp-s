@@ -1,0 +1,265 @@
+.map-page-section {
+    width: 100%;
+    height: calc(100vh - 61px);
+}
+.map-page-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.map {
+    width: 100%;
+    height: 100%;
+    flex: 0 0 60%;
+    background-color: rgba(0, 0, 0, 0.388);
+}
+.map-page-results-wrapper {
+    /* width: 100%; */
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    
+}
+
+.map-page-results-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.map-page-results-filter-wrapper {
+    max-width: 719px;
+    height: fit-content;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+
+
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
+
+    border-radius: 10px;
+
+    padding: 0px 6px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    
+}
+.map-page-results-filter-wrapper>button {
+    width: 100%;
+    max-width: 150px;
+}
+
+.map-page-results-filter-wrapper>input {
+    max-width: 300px;
+    width: 100%;
+
+    margin: 0;
+}
+
+.map-page-results-filter-wrapper>*{
+    flex: 1 1 500px;
+}
+.search-input-container.map-search {
+    width: 100%;
+}
+.search-input.map-search-input {
+    width: 100%;
+}
+
+.map-page-results-cards-wrapper {
+    margin-top: 40px;
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+
+/* Cards on map page */
+
+.map-page-card {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 719px;
+    height: 240px;
+
+    border-radius: 10px;
+    overflow: hidden;
+    transition: .1s linear;
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
+}
+
+.map-page-card:hover { /* TEMP */
+
+
+    transform: scale(1.01);
+
+    /* border: 1px blue solid; */
+    cursor: pointer;
+}
+
+.map-page-card-clicked {
+    border: 1px var(--main-blue) solid;
+    transform: scale(1.01);
+
+}
+
+.map-page-card-up {
+    width: 100%;
+    height: 100%;
+
+    
+    display: flex;
+
+    
+}
+
+.map-page-card-img {
+    width: 50%;
+    height: 100%;
+    
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.map-page-card-list-wrapper{
+   
+    width: 50%;
+    height: 100%;
+
+    padding: 8px 16px;
+}
+.map-page-card-list {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+    
+}
+
+
+.map-page-card-down {
+    width: 100%;
+    height: 39%;
+
+    margin-bottom: 20px;
+}
+
+
+.map-page-card-name {
+    color: var(--main-blue);
+    margin-bottom: 5px;
+}
+.map-page-card-price {
+
+    margin-bottom: 10px;
+}
+.map-page-card-location {
+
+    color: var(--main-grey);
+}
+
+
+
+.map-page-card-list-element {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 14px;
+}
+
+.map-page-card-list-element:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.map-page-card-list-element-name {
+    width: fit-content;
+}
+.map-page-card-list-element-price {
+}
+.map-page-card-list-element-plan {
+}
+.map-page-card-list-element {
+}
+
+
+.map-page-card-name a {
+    color: var(--main-blue);
+    display: inline-block;
+    width: fit-content;
+    
+}
+
+.map-page-card-name a:after {
+    cursor: pointer;
+    content: "";
+    display: block;
+    width: 0%;
+    height: 2px;
+    background-color: var(--main-blue);
+    transition: 0.2s linear;
+    margin-top: 2px;
+}
+
+.map-page-card-name a:hover::after {
+    content: "";
+    width: 90%;
+}
+
+/* Filter on map page */
+
+
+
+
+.filter-row {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.btns-filter-row {
+    flex-wrap: wrap;
+}
+
+.rangeslider-filter-row {
+    align-items: center;
+    justify-content: center !important;
+}
+
+.filter-row>input {
+    width: 100%
+}
+
+.filter-row>.rangeslider-container {
+    width: 100%;
+}
+
+.map-filter-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.ymaps-2-1-79-balloon-pane{
+    top: -10px
+}

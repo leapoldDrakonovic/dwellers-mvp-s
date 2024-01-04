@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %}>
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <title>Map - Dwellers</title>
+  </head>
+  <body>
+
+    <nav class="second-header-nav" style="width: 100%; border-radius: 0;">
+        <div class="second-header-container container">
+            <div class="second-header-content">
+                <ul class="second-header-nav-list">
+                    <li class="second-header-nav-item"><a href="/">{{ data.locale.map.text.nav_back }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="map-page-section">
+        <div class="map-page-content">
+            <div class="map" id="map">
+            </div>
+            <div class="map-page-results-wrapper">
+
+                {% if data.filters_output %}
+                <div class="map-page-results-filter-wrapper">
+                    <div class="filter">
+                        
+                        <div class="main-filter">
+                            <div class="main-filter-container">
+                                <div class="map-filter-content">
+
+                                    <div class="filter-row">
+                                        <div class="search-input-container map-search">
+                                            <input 
+                                            type='text' 
+                                            class="search-input map-search-input"
+                                            id="search-input"
+                                            placeholder="{{ data.locale.index.input_forms.search }}"
+                                            {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %}
+                                            />
+                                            
+                                            <button onclick="buildingsFilteredShowMap()" class='search-filter-btn {% if request.cookies.__lang == 'HE' %} reverse {% endif %} blue-btn' id='search1'><img loading="lazy" src="{{ url_for('static', filename='assets/UIsvgs/search_icon.svg') }}" alt=""></button>
+                                        </div>
+                                    </div>
+                                    <div class="filter-row btns-filter-row">
+                                        <div class="map-filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbHouse'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/HouseSvg.svg') }}'></img>
+                                                    <div class="filter-text" data-value="{{ data.locale.index.text.house_type_house }}">{{ data.locale.index.text.house_type_house }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                <ul class="btn-list" id="dropdownHouse">
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value="2022">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2022</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2023'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2023</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2024'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2024</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='2025'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2025</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='2026+'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2026+</span>
+                                                    </li>
+                                                    <li class="btn-item text-item" data-value="all">{{ data.locale.index.text.house_type_all }}</li>
+                                                </ul>
+                                                <input type="text" value="" id="filter_house_class" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+            
+                                        <div class="map-filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbUsd'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/DollarSvg.svg') }}'></img>
+                                                    <div id="filter_type_of_cash" class="filter-text">{{ data.locale.index.text.cur_money_type }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                
+                                                <ul class="btn-list-inp price-inp" id="dropdownUsd">
+                                                    <div class="btn-list-form">
+                                                        <label for="min-price-inp">{{ data.locale.index.text.price_min }}</label>
+                                                        <input name="min-price-inp" type="number"  inputmode="numeric" class="inp-filter" id="min-price-inp-btn">
+                                                        <br>
+                                                        <label for="max-price-inp">{{ data.locale.index.text.price_max }}</label>
+                                                        <input name="max-price-inp" type="number"  inputmode="numeric" class="inp-filter" id="max-price-inp-btn">
+                                                        <button class="modal-x-btn" id="filter-btn-clear-price">{{ data.locale.index.buttons.clear_ }}</button>
+                                                    </div>
+                                                </ul>
+                                                <input type="text" value="" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+            
+                                        <div class="map-filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbm2'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/dollar-sign 1.svg') }}'></img>
+                                                    <div id="filter_meters" class="filter-text">{{ data.locale.map.text.m2 }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                
+                                                <ul class="btn-list-inp m2-inp" id="dropdownM2">
+                                                    <div class="btn-list-form">
+                                                        <label for="min-inp-btn">{{ data.locale.map.text.m2_min }}</label>
+                                                        <input name="min-inp-btn" type="number" class="inp-filter" id="min-inp-btn">
+                                                        <br>
+                                                        <label for="max-inp-btn">{{ data.locale.map.text.m2_max }}</label>
+                                                        <input name="max-inp-btn" type="number" class="inp-filter" id="max-inp-btn">
+                                                        <button class="modal-x-btn" id="filter-btn-clear">{{ data.locale.map.buttons.clear_ }}</button>
+                                                    </div>
+                                
+                                                </ul>
+                                                <input type="text" value="" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+                                        <div class="map-filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbRoom'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/RoomsSmg.svg') }}'></img>
+                                                    <div class="filter-text" data-value="{{ data.locale.index.text.rooms }}">{{ data.locale.index.text.rooms }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                <ul class="btn-list" id="dropdownRoom">
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value="1">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">1</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='3'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">3</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp"  value='4'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">4</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='5'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">5</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='6+'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">6+</span>
+                                                    </li>
+                                                    <li class="btn-item text-item" data-value="clear">{{ data.locale.index.text.rooms_clear }}</li>
+                                                </ul>
+                                                <input type="text" value=""  id="filter_rooms"class="filter-btn-inp">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="map-page-results-cards-wrapper" class="map-page-results-cards-wrapper">
+
+                    <div class="map-card">
+                        <div class="map-card-img"></div>
+                        <div class="map-card-content"></div>
+                    </div>
+
+                    {% for building in data.filters_output.data %}
+                    <div id="{{ building.id }}-page-card" class="map-page-card" onclick="map.flyTo({center: [{{ building.coord_y }},{{ building.coord_x }}], zoom:15}); for (let object of document.getElementsByClassName('map-page-card')) {object.classList.remove('map-page-card-clicked')}; document.getElementById('{{ building.id }}-page-card').classList.add('map-page-card-clicked');">
+                        
+                        <div class="map-page-card-up">
+
+                            <div class="map-page-card-img" style="background-repeat: no-repeat; background-size: 100% 100%; background-image: url({{ url_for('static', filename='assets/' + building.type|string + '/' + building.group_id_for_image|string + '/' + building.file_name|string) }})"></div>
+                            
+                            <div class="map-page-card-list-wrapper">
+                                <div class="map-page-card-down">
+                                    <div class="map-page-card-name"><a href="/building?building_id={{ building.id }}" target="_blank">{{ building.name }}</a></div>
+                                    <div class="map-page-card-price"></div>
+                                    <div class="map-page-card-location">{{ building.country }}, {{ building.city }}</div>
+                                </div>
+                                {% for grouped_flats_id, flats in building.grouped_flats.items() %}
+                                <div class="map-page-card-list-element">
+                                    {% if grouped_flats_id == 0 %}
+                                    <div class="map-page-card-list-element-name">{{ data.locale.map.text.studios }}</div>
+                                    {% else %}
+                                    <div class="map-page-card-list-element-name">{{ grouped_flats_id }}{{ data.locale.map.text.rooms }}</div>
+                                    {% endif %}
+                                    {% if flats[-1]['min_m2_value'] and flats[-1]['min_price_value'] %}
+                                    <div class="map-page-card-list-element-price">{{ data.locale.map.text.for }} {{ flats[-1]['min_m2_value'] }} {{ data.locale.map.text.m2 }}</div>
+                                    <div class="map-page-card-list-element-plan">{{ data.locale.map.text.for }} $<span class='price'>{{ flats[-1]['min_price_value'] }}</span></div>
+                                    {% else %}
+                                    <div class="map-page-card-list-element-price">{{ data.locale.map.text.for }} {{ flats[0]['min_m2_value'] }} {{ data.locale.map.text.m2 }}</div>
+                                    <div class="map-page-card-list-element-plan">{{ data.locale.map.text.for }} $<span class='price'>{{ flats[0]['min_price_value'] }}</span></div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% else %}
+
+                <div class="map-page-results-filter-wrapper">
+                    <div class="filter">
+                        
+                        <div class="main-filter">
+                            <div class="main-filter-container">
+                                <div class="map-filter-content">
+
+                                    <div class="filter-row">
+                                        <div class="search-input-container map-search">
+                                            <input 
+                                            type='text' 
+                                            class="search-input map-search-input"
+                                            id="search-input"
+                                            placeholder="{{ data.locale.index.input_forms.search }}"
+                                            {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %}
+                                            />
+                                            
+                                            <button onclick="buildingsFilteredShowMap()" class='search-filter-btn {% if request.cookies.__lang == 'HE' %} reverse {% endif %} blue-btn' id='search1'><img loading="lazy" src="{{ url_for('static', filename='assets/UIsvgs/search_icon.svg') }}" alt=""></button>
+                                        </div>
+                                    </div>
+                                    <div class="filter-row btns-filter-row">
+                                        <div class="map-filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbHouse'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/HouseSvg.svg') }}'></img>
+                                                    <div  class="filter-text" data-value="{{ data.locale.index.text.house_type_house }}">{{ data.locale.index.text.house_type_house }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                <ul class="btn-list" id="dropdownHouse">
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value="2022">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2022</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2023'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2023</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2024'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2024</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='2025'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2025</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='2026+'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2026+</span>
+                                                    </li>
+                                                    <li class="btn-item text-item" data-value="all">{{ data.locale.index.text.house_type_all }}</li>
+                                                </ul>
+                                                <input type="text" value="" id="filter_house_class" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+            
+                                        <div class="map-filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbUsd'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/DollarSvg.svg') }}'></img>
+                                                    <div id="filter_type_of_cash" class="filter-text">{{ data.locale.index.text.cur_money_type }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                
+                                                <ul class="btn-list-inp price-inp" id="dropdownUsd">
+                                                    <div class="btn-list-form">
+                                                        <label for="min-price-inp">{{ data.locale.index.text.price_min }}</label>
+                                                        <input name="min-price-inp" type="number"  inputmode="numeric" class="inp-filter" id="min-price-inp-btn">
+                                                        <br>
+                                                        <label for="max-price-inp">{{ data.locale.index.text.price_max }}</label>
+                                                        <input name="max-price-inp" type="number"  inputmode="numeric" class="inp-filter" id="max-price-inp-btn">
+                                                        <button class="modal-x-btn" id="filter-btn-clear-price">{{ data.locale.index.buttons.clear_ }}</button>
+                                                    </div>
+                                                </ul>
+                                                <input type="text" value="" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+            
+                                        <div class="map-filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbm2'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/dollar-sign 1.svg') }}'></img>
+                                                    <div id="filter_meters" class="filter-text">{{ data.locale.map.text.m2 }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                
+                                                <ul class="btn-list-inp m2-inp" id="dropdownM2">
+                                                    <div class="btn-list-form">
+                                                        <label for="min-inp-btn">{{ data.locale.map.text.m2_min }}</label>
+                                                        <input name="min-inp-btn" type="number" class="inp-filter" id="min-inp-btn">
+                                                        <br>
+                                                        <label for="max-inp-btn">{{ data.locale.map.text.m2_max }}</label>
+                                                        <input name="max-inp-btn" type="number" class="inp-filter" id="max-inp-btn">
+                                                        <button class="modal-x-btn" id="filter-btn-clear">{{ data.locale.map.buttons.clear_ }}</button>
+                                                    </div>
+                                
+                                                </ul>
+                                                <input type="text" value="" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+                                        <div class="map-filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbRoom'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/RoomsSmg.svg') }}'></img>
+                                                    <div class="filter-text" data-value="{{ data.locale.index.text.rooms }}">{{ data.locale.index.text.rooms }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                <ul class="btn-list" id="dropdownRoom">
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value="1">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">1</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='3'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">3</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp"  value='4'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">4</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='5'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">5</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='6+'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">6+</span>
+                                                    </li>
+                                                    <li class="btn-item text-item" data-value="clear">{{ data.locale.index.text.rooms_clear }}</li>
+                                                </ul>
+                                                <input type="text" value=""  id="filter_rooms"class="filter-btn-inp">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="map-page-results-cards-wrapper" class="map-page-results-cards-wrapper"></div>
+
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+
+
+<script>
+
+    var language = 'en_US';
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZHdlbGxlcnNjb3JwIiwiYSI6ImNsbGNoY24wMjAxZngzZG56NnJ6bnZsMzQifQ.EVqKELsfXagEQ43V7pd_vQ';
+
+    var points = {{ data.filters_output.data|tojson}};
+
+    var mapMarkers = [];
+
+
+
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/dwellerscorp/clldvi9c3011701qp426hfxxe',
+        center: [34.3, 31.3], // Начальные координаты центра карты [долгота, широта]
+        zoom: 7 // Начальный масштаб карты
+    });
+
+
+        // Добавление маркеров
+        var points = {{ data.filters_output.data|tojson }};
+        points.forEach(function (building) {
+            var popupContent = '<div style="text-align: center;">' +
+                '<h3>' + building.name + '</h3>' +
+                '<p>' + building.country + ', ' + building.city + '</p>' +
+                '</div>';
+    
+            // Создание маркера
+            var marker = new mapboxgl.Marker()
+                .setLngLat([building.coord_y, building.coord_x])
+                .setPopup(new mapboxgl.Popup().setHTML(popupContent))
+                .addTo(map);
+    
+            // Обработчик события клика по маркеру
+            marker.getElement().addEventListener('click', function () {
+                map.flyTo({
+                    center: [building.coord_y, building.coord_x],
+                    zoom: 15
+                });
+    
+                // Управление классами элементов страницы
+                for (let object of document.getElementsByClassName('map-page-card')) {
+                    object.classList.remove('map-page-card-clicked');
+                }
+                document.getElementById(building.id + '-page-card').classList.add('map-page-card-clicked');
+                window.location.hash = building.id + "-page-card";
+            });
+
+            mapMarkers.push(marker)
+        });
+
+
+
+
+
+
+
+    // Добавляем маркеры и обработчики событий
+    /*
+    points.forEach(pointsGroup=>{
+        var marker = new mapboxgl.Marker()
+            .setLngLat([pointsGroup[0], pointsGroup[1]])
+            .addTo(map);
+
+
+        var popupContent = '<div style="text-align: center;">' +
+            '<h3>' + pointsGroup[3] + '</h3>' +
+            '<p>' + pointsGroup[4] + ', ' + pointsGroup[5] + '</p>' +
+            '</div>';
+
+        var popup = new mapboxgl.Popup()
+            .setHTML(popupContent);
+
+        marker.setPopup(popup);
+
+        marker.getElement().addEventListener('click', function () {
+            map.flyTo({
+                center: [pointsGroup[0], pointsGroup[1]],
+                zoom: 15
+            });
+
+            for (let object of document.getElementsByClassName('map-page-card')) {
+                object.classList.remove('map-page-card-clicked');
+            }
+            document.getElementById(pointsGroup[2].toString() + '-page-card').classList.add('map-page-card-clicked');
+            window.location.hash = pointsGroup[2].toString() + "-page-card";
+        });
+    });
+    */
+
+    // controls rools:
+    map.addControl(new mapboxgl.NavigationControl());
+
+    // Удаляем контролы, которые не нужны
+    
+    /*
+    map.removeControl(map.getControl('geolocate'));
+    map.removeControl(map.getControl('search'));
+    map.removeControl(map.getControl('traffic'));
+    map.removeControl(map.getControl('fullscreen'));
+    map.removeControl(map.getControl('zoom'));
+    map.removeControl(map.getControl('ruler'));
+    */
+    
+    window.deleteMapPoints = () => {
+        mapMarkers.forEach (marker=> {
+            marker.remove()
+        })
+        mapMarkers = []
+    }
+
+    
+    window.addMapPoints = (points) => {
+        points.forEach(pointsGroup=>{
+            var marker = new mapboxgl.Marker()
+                .setLngLat([pointsGroup[1], pointsGroup[0]])
+                .addTo(map);
+
+            var popupContent = '<div style="text-align: center;">' +
+                '<h3>' + pointsGroup[3] + '</h3>' +
+                '<p>' + pointsGroup[4] + ', ' + pointsGroup[5] + '</p>' +
+                '</div>';
+
+            var popup = new mapboxgl.Popup()
+                .setHTML(popupContent);
+
+            marker.setPopup(popup);
+
+            marker.getElement().addEventListener('click', function () {
+                map.flyTo({
+                    center: [pointsGroup[1], pointsGroup[0]],
+                    zoom: 15
+
+                });
+
+
+                
+                for (let object of document.getElementsByClassName('map-page-card')) {
+                    object.classList.remove('map-page-card-clicked');
+                }
+                document.getElementById(pointsGroup[2].toString() + '-page-card').classList.add('map-page-card-clicked');
+                window.location.hash = pointsGroup[2].toString() + "-page-card";
+            });
+
+            mapMarkers.push(marker)
+        });
+    }
+
+
+</script>
+
+<script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/filter.js') }}"></script>
+
+</body>
+</html>

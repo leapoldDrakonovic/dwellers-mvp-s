@@ -1,0 +1,47 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.error-wrapper {
+    background-color: rgb(227, 224, 224);
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.error-container {
+    padding: 10px;
+    display: flex;
+    margin: auto;
+}
+
+.error-icon-container {
+ margin-right: 50px;
+ font-size: 40px;
+ margin-top: 20px;
+ align-items: center;
+ white-space: nowrap;
+}
+.error-title {
+    display: flex;
+    margin-bottom: 30px;
+}
+.error-status {
+    font-size: 35px;
+    
+}
+.error-req {
+    font-size: 35px;
+}
+.error-description {
+    margin-bottom: 10px;
+}
+.error-footer {
+}
+
+.error-footer a{
+    color: blue; /*var(--main-blue)*/
+    cursor: pointer;
+} 

@@ -1,0 +1,56 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Oswald&display=swap');
+
+/* проверка */
+body {
+    font-family: 'DM Sans', sans-serif;
+    /* font-family: 'Oswald', sans-serif; */
+    /* d */
+}
+
+/* проверка2 */
+
+
+/* Roots */
+:root {
+
+    /* Colors */
+
+    --main-blue: rgba(9, 87, 203, 1);
+    --main-grey: rgba(0, 0, 0, 0.568);
+    --white-blue: #E0EDFA;
+
+
+
+    /* Breakpoints */
+
+    --for-phone: 400px; 
+    --for-tablet-portrait:686px; 
+    --for-tablet-landscape: 998px; 
+    --for-desktop: 1200px; 
+    --for-big-desktop:1800px;
+}
+
+
+/* Animations */
+@keyframes showSlide {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+@keyframes hideSlide {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}

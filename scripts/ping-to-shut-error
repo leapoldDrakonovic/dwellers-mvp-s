@@ -1,0 +1,91 @@
+#!bin/bash
+
+clear
+
+echo "SERVER IS READY TO START, PLEASE AWAIT..."
+sleep 5
+
+echo
+echo '------------'
+echo
+
+echo "SERVER STARTED"
+echo "SCRIPT WILL SEND REQUESTS TO THE SERVER TO MAKE ALL WORKERS START. PLEASE AWAIT..."
+
+echo
+echo '------------'
+echo
+
+echo "MAKING REQUESTS TO THE SERVER TO START ALL WORKERS..."
+SERVER_IP=127.0.0.1
+is_stop_with_many_500=0
+max_is_stop_with_many_500=8
+is_stop_with_many_200=0
+max_is_stop_with_many_200=10
+is_stop_with_many_502=0
+max_is_stop_with_many_502=20
+is_good=true
+while (true)
+do    
+    response=$(curl -s -w "%{http_code}" $SERVER_IP)
+    http_code=${response: -3}  # get the last 3 digits
+
+    echo $i REQUEST IS SENT: $http_code
+
+    case "$http_code" in
+    "500")
+        is_stop_with_many_500=$((is_stop_with_many_500 + 1))
+        is_stop_with_many_200=0;
+
+        if [[ "$is_stop_with_many_500" == "$max_is_stop_with_many_500" ]]; then
+            break
+        fi
+
+        ;;
+    "200")
+        is_stop_with_many_200=$((is_stop_with_many_200 + 1))
+        if [[ "$is_stop_with_many_200" == "$max_is_stop_with_many_200" ]]; then
+            break
+        fi
+        ;;
+    "502")
+        is_stop_with_many_502=$((is_stop_with_many_502 + 1))
+        if [[ "$is_stop_with_many_502" == "$max_is_stop_with_many_502" ]]; then
+            is_good=false;
+
+            echo
+            echo '------------'
+            echo
+            
+            echo "THERE ARE TOO MANY 502 RESPONSES FROM THE SERVER"
+            echo "THERE MIGHT BE AN ERROR IN THE SERVER"
+            echo "PLEASE, CHECK LOGS, FIX AN ERROR AND TRY AGAIN"
+            echo "APPLICATION SHUT DOWN IN 3"
+            sleep 1
+            echo "APPLICATION SHUT DOWN IN 2"
+            sleep 1
+            echo "APPLICATION SHUT DOWN IN 1"
+            sleep 1
+            make stop-compose
+            break
+        fi
+        ;;
+    *)
+        ;;
+    esac
+    sleep 0.2
+done
+
+echo
+echo '------------'
+echo
+
+if [[ $is_good == true ]]; then
+    # echo "SERVER SHOULD BE READY TO WORK"
+    # echo "TRY TO SEND SOME MORE REQUESTS TO THE SERVER IF YOU STILL SEE 500 ERROR"
+    echo "SERVER IS READY TO ACCEPT CONNECTIONS"
+    echo "HAVE A GOOD SESSION"
+else
+    echo "SERVER IS DOWN"
+    echo "TRY AGAIN"
+fi

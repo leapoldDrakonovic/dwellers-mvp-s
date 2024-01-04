@@ -1,0 +1,159 @@
+@import url(../_constants.css);
+
+
+.rs-wrapper{
+  max-width: 400px;
+  background: none;
+  border-radius: 10px;
+  padding: 20px 25px 40px;
+
+  position: relative;
+}
+header h2{
+  font-size: 24px;
+  font-weight: 600;
+}
+header p{
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.field{
+  display: flex;
+  width: 70px;
+  height: 20px;
+  align-items: center;
+  bottom: 0;
+  left: 20px;
+
+  z-index: 10;
+  color: black;
+
+}
+
+
+
+
+.field input{
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 14px;
+  border-radius: 5px;
+  text-align: center;
+  border: none;
+
+  color: white;
+  background-color:var(--main-blue);
+  -moz-appearance: textfield;
+}
+
+.field-min {
+    
+    position: absolute;
+    left: 0;
+}
+
+.field-max {
+    
+    position: absolute;
+    left: 80%;
+    top: -20%;
+    
+}
+
+
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.price-input .separator{
+  width: 130px;
+  display: flex;
+  font-size: 19px;
+  align-items: center;
+  justify-content: center;
+}
+.slider{
+  height: 5px;
+  position: relative;
+  background: #ddd;
+  border-radius: 5px;
+}
+.slider .progress{
+  height: 100%;
+  left: 25%;
+  right: 25%;
+  position: absolute;
+  border-radius: 5px;
+  background:  var(--main-blue);
+}
+.range-input{
+  position: relative;
+}
+.range-input input{
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -5px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb{
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background: #ffffff;
+    border: 5px solid var(--main-blue);
+  pointer-events: auto;
+  -webkit-appearance: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+input[type="range"]::-moz-range-thumb{
+  height: 17px;
+  width: 17px;
+  border: none;
+  border-radius: 50%;
+  background: var(--main-blue);
+  pointer-events: auto;
+  -moz-appearance: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+
+input[type="range"]::-webkit-slider-thumb::after{
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #333;
+}
+
+input[type="range"]::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 5px;
+  
+}
+
+
+/* Разобраться с этими параметрами нужно */
+
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  height: 1.7em;
+  width: 1.7em;
+
+  cursor: pointer;
+  margin-top: -9px;
+  pointer-events: auto;
+  border-radius: 50%;
+}
+
+input[type="range"]:active::-webkit-slider-thumb{
+  background-color: #ffffff;
+  border: 3px solid #3264fe;
+}

@@ -1,0 +1,255 @@
+/* IMPORTS */
+
+/* Reset and container */
+@import url(./reset.css);
+/* Consts */
+@import url(./_constants.css);
+
+/* Header */
+@import url(./headers.css);
+
+/* Footer */
+@import url(./footer.css);
+
+/* Pages */
+@import url(./mainPage.css);
+@import url(./builderPage.css);
+@import url(./apartPage.css);
+@import url(./flatPage.css);
+@import url(./mapPage.css);
+@import url(./about_us.css);
+
+/* UI elements */
+@import url(./UI/rangeslider.css);
+@import url(./UI/buttons.css);
+@import url(./UI/card.css);
+@import url(./UI/builderList.css);
+
+/* Modals */
+@import url(./modal.css);
+
+/* Adaptive */
+@import url(./adaptive.css);
+
+
+
+::selection{
+    color: #fff;
+    background: var(--main-blue);
+}
+
+
+/* ScrollBar design */
+::-webkit-scrollbar {
+    border: none;
+    width: 15px;
+}
+
+
+::-webkit-scrollbar-track-piece{
+    background-color: none;
+}
+
+::-webkit-scrollbar-track{
+    background-color: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--white-blue);
+    border-radius: 15px;
+
+    
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: var(--main-blue);
+    cursor: pointer;
+}
+
+
+/* Absolute Center Spinner */
+.loading {
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: visible;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+    content: '';
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+    /* hide "loading..." text */
+    font: 0/0 a;
+    color: transparent;
+    text-shadow: none;
+    background-color: transparent;
+    border: 0;
+}
+
+.loading:not(:required):after {
+    content: '';
+    display: block;
+    /* Размер всей анимации */
+    font-size: 6px;
+    /* Ширина и высота шаров */
+    width: 0.7em;
+    height: 0.7em;
+    margin-top: -0.5em;
+    -webkit-animation: spinner 1500ms infinite linear;
+    -moz-animation: spinner 1500ms infinite linear;
+    -ms-animation: spinner 1500ms infinite linear;
+    -o-animation: spinner 1500ms infinite linear;
+    animation: spinner 1500ms infinite linear;
+    /* Ширина круга???? */
+    border-radius: 0.4em;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+    box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+}
+@-moz-keyframes spinner {
+0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+}
+@-o-keyframes spinner {
+0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+}
+@keyframes spinner {
+0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .header-btns.popup-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    
+} */
+
+
+
+
+/* for Footer */
+
+.footer-container {
+
+}
+
+/* for UI components */
+
+/* ============================ */
+
+/* for Main Page */
+
+/* Main filter */
+
+
+
+.btn-popup.hide {
+    display: none;
+}
+
+@keyframes plavno {
+    0% {
+
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+

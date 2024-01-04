@@ -1,0 +1,427 @@
+{% extends "base.html" %}
+
+{% block title %} {{ data.locale.index.text.title }} {% endblock %}
+
+{% block content %}
+
+<div class="modal modal-filter">
+    <div class="filter-modal-window">
+    
+        <div class="filter-modal-window-wrapper">
+
+
+            <button class="modal-x-btn" id="filter-modal-x-btn">X</button>
+
+            <div class="filter-modal-row-wrapper">
+                <div class="filter-modal-row" id="row-first-child">
+
+                    <div class="filter-button-wrapper">
+                        <div class="dropdown">
+                            <button class="filter-button" id='fbHouseModal'>
+                                <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/HouseSvg.svg') }}'></img>
+                                <div class="filter-text">{{ data.locale.index.text.house_type_house }}</div>
+                                <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                            </button>
+                            
+                            <ul class="btn-list" id="dropdownHouse">
+                                <li class="btn-item">{{ data.locale.index.text.house_type_in_process }}</li>
+                                <li class="btn-item">{{ data.locale.index.text.house_type_marketing }}</li>
+                                <li class="btn-item">{{ data.locale.index.text.house_type_soon }}</li>
+                                <li class="btn-item" data-value="all">{{ data.locale.index.text.house_type_all }}</li>
+                            </ul>
+                            <input type="text" value="" class="filter-btn-inp">
+                        </div>
+                    </div>
+            
+
+                    <div class="filter-modal-row-sqr-wrapper">
+                        <input type="number" class="filter-input-sqr" placeholder="{{ data.locale.index.text.m2_min }}">
+                        <span class="filter-modal-span"></span>
+                        <input type="number" class="filter-input-sqr" placeholder="{{ data.locale.index.text.m2_max }}">
+                    </div>
+
+
+                </div>
+                <div class="filter-modal-row">
+                    <div class="filter-button-wrapper">
+                        <div class="dropdown">
+                            <button class="filter-button" id='fbRoomModal'>
+                                <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/RoomsSmg.svg') }}'></img>
+                                <div class="filter-text">{{ data.locale.index.text.rooms }}</div>
+                                <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                            </button>
+                            
+                            <ul class="btn-list">
+                                <li class="btn-item" data-value="1">1</li>
+                                <li class="btn-item" data-value="2">2</li>
+                                <li class="btn-item" data-value="3">3</li>
+                                <li class="btn-item" data-value="4">4</li>
+                                <li class="btn-item" data-value="5">5</li>
+                            </ul>
+                            <input type="text" value="" class="filter-btn-inp">
+                        </div>
+                    </div>
+            
+                    <div class="filter-button-wrapper">
+                        <div class="dropdown">
+                            <button class="filter-button" id='fbUsdModal'>
+                                <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/DollarSvg.svg') }}'></img>
+                                <div class="filter-text">{{ data.locale.index.text.cur_money_type }}</div>
+                                <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                            </button>
+                            
+                            <ul class="btn-list">
+                                <li class="btn-item" data-value="USD">{{ data.locale.index.text.money_type_1 }}</li>
+                                <li class="btn-item" data-value="EUR">{{ data.locale.index.text.money_type_2 }}</li>
+                                <li class="btn-item" data-value="SHE">{{ data.locale.index.text.money_type_3 }}</li>
+                            </ul>
+                            <input type="text" value="" class="filter-btn-inp">
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+            
+            <input 
+            type='text' 
+            class="search-input modal-search-input"
+            placeholder="{{ data.locale.index.input_forms.search }}"
+            {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %}
+            >
+            </input>
+
+            <div class="rangeslider-container">
+                <div class="rs-wrapper">
+
+
+
+
+                    <div class="slider" >
+                    <div class="progress" ></div>
+                    </div>
+            
+            
+                    <div class="field field-min">
+                    <input type="number" class="input-min" value="2500">
+                    </div>
+            
+                    <div class="field field-max">
+                    <input type="number" class="input-max" value="7500">
+                    </div>
+            
+            
+                    <div class="range-input" >
+                    <input type="range" class="range-min" min="0" max="10000" value="0" step="100" id="inpmin">
+                    <input type="range" class="range-max" min="0" max="10000" value="10000" step="100">
+                    </div>
+            
+            
+                </div>
+            </div>
+
+            <div class="filter-modal-row search-row {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                <div class="filter-search-text">
+                    <div id="search-count-modal" class="search-count-modal">{{ data.length_of_all_buildings }}</div>
+                    <div id="search-subtitle-modal" class="search-subtitle-modal">Results</div>
+                </div>
+
+                <button onclick="buildingsFilteredShow()" class='blue-btn' id='search1'>Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <nav class="second-header-nav">
+        <div class="second-header-container container">
+            <div class="second-header-content">
+                <ul class="second-header-nav-list">
+                    <li class="second-header-nav-item"><a href="#search">{{ data.locale.index.text.nav_search }}</a></li>
+                    <li class="second-header-nav-item"><a href="#buildings">{{ data.locale.index.text.nav_buildings }}</a></li>
+                    <li class="second-header-nav-item"><a href="#builders">{{ data.locale.index.text.nav_builders }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="main-section" id="search">
+        <div class="main-section-bgi">
+
+            <div class="container">
+                <div class="main-content">
+                    <div class="upper-content">
+                        <div class="title-content">
+                            <h2 class="title">DWELLERS</h2>
+                            <span class="sub-title">{{ data.locale.index.text.real_estate }}</span>
+                        </div>
+                    </div>
+
+                    <div class="open-filter-btn-container">
+                        <button class="open-filter-btn blue-btn" id="filter-modal-btn">{{ data.locale.index.buttons.filter }}</button>
+                    </div>
+
+                    <div class="filter">
+                        
+                        <div class="main-filter">
+                            <div class="main-filter-container">
+                                <div class="main-filter-content">
+                                    
+                                        <div class="filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbm2'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/dollar-sign 1.svg') }}'></img>
+                                                    <div id="filter_meters" class="filter-text">{{ data.locale.index.text.m2 }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                
+                                                <ul class="btn-list-inp m2-inp" id="dropdownM2">
+                                                    <div class="btn-list-form">
+                                                        <label for="min-inp-btn">{{ data.locale.index.text.m2_min }}</label>
+                                                        <input name="min-inp-btn" type="text" maxlength='3' inputmode="numeric" class="inp-filter" id="min-inp-btn">
+                                                        <br>
+                                                        <label for="max-inp-btn">{{ data.locale.index.text.m2_max }}</label>
+                                                        <input name="max-inp-btn" type="text" maxlength='3' inputmode="numeric" class="inp-filter" id="max-inp-btn">
+                                                        <button class="modal-x-btn" id="filter-btn-clear">{{ data.locale.index.buttons.clear_ }}</button>
+                                                    </div>
+                                
+                                                </ul>
+                                                <input type="text" value="" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+
+                                        
+                                        <div class="filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbUsd'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/DollarSvg.svg') }}'></img>
+                                                    <div id="filter_type_of_cash" class="filter-text">{{ data.locale.index.text.cur_money_type }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                
+                                                <ul class="btn-list-inp price-inp" id="dropdownUsd">
+                                                    <div class="btn-list-form">
+                                                        <label for="min-price-inp">{{ data.locale.index.text.price_min }}</label>
+                                                        <input name="min-price-inp" type="number"  inputmode="numeric" class="inp-filter" id="min-price-inp-btn">
+                                                        <br>
+                                                        <label for="max-price-inp">{{ data.locale.index.text.price_max }}</label>
+                                                        <input name="max-price-inp" type="number"  inputmode="numeric" class="inp-filter" id="max-price-inp-btn">
+                                                        <button class="modal-x-btn" id="filter-btn-clear-price">{{ data.locale.index.buttons.clear_ }}</button>
+                                                    </div>
+                                                </ul>
+                                                <input type="text" value="" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+                                    
+
+                                      
+                                        <div class="filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbHouse'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/HouseSvg.svg') }}'></img>
+                                                    <div  class="filter-text" data-value="{{ data.locale.index.text.house_type_house }}">{{ data.locale.index.text.house_type_house }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                <ul class="btn-list" id="dropdownHouse">
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value="2022">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2022</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2023'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2023</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2024'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2024</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='2025'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2025</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='2026+'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2026+</span>
+                                                    </li>
+                                                    <li class="btn-item text-item" data-value="all">{{ data.locale.index.text.house_type_all }}</li>
+                                                </ul>
+                                                <input type="text" value="" id="filter_house_class" class="filter-btn-inp">
+                                            </div>
+                                        </div>
+                                        <div class="filter-button-wrapper">
+                                            <div class="dropdown">
+                                                <button class="filter-button" id='fbRoom'>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/RoomsSmg.svg') }}'></img>
+                                                    <div class="filter-text" data-value="{{ data.locale.index.text.rooms }}">{{ data.locale.index.text.rooms }}</div>
+                                                    <img loading="lazy" src='{{ url_for('static', filename='assets/UIsvgs/arrow.svg') }}'></img>
+                                                </button>
+                                                <ul class="btn-list" id="dropdownRoom">
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value="1">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">1</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp" value='2'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">2</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='3'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">3</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp">
+                                                            <input type="checkbox" class="checkbox-inp"  value='4'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">4</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='5'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">5</span>
+                                                    </li>
+                                                    <li class="btn-item">
+                                                        <label class="custom-checkbox" for="checkbox-inp" >
+                                                            <input type="checkbox" class="checkbox-inp" value='6+'>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        <span class="house-filter-btn-text">6+</span>
+                                                    </li>
+                                                    <li class="btn-item text-item" data-value="clear">{{ data.locale.index.text.rooms_clear }}</li>
+                                                </ul>
+                                                <input type="text" value=""  id="filter_rooms"class="filter-btn-inp">
+                                            </div>
+                                        </div>
+
+
+
+                                    <div class="search-input-container">
+                                        <input 
+                                        type='text' 
+                                        class="search-input"
+                                        id="search-input"
+                                        placeholder="{{ data.locale.index.input_forms.search }}"
+                                        {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %}
+                                        />
+                                        
+                                        <button onclick="buildingsFilteredShow()" class='search-filter-btn {% if request.cookies.__lang == 'HE' %} reverse {% endif %} blue-btn' id='search1'><img loading="lazy" src="{{ url_for('static', filename='assets/UIsvgs/search_icon.svg') }}" alt=""></button>
+                                    </div>
+                                
+
+                                    <div class="filter-search-text">
+                                        <div id="search-count-1" class="search-count-1">{{ data.length_of_all_buildings }}</div>
+                                        <div id="search-subtitle-1" class="search-subtitle-1">{{ data.locale.index.text.filter_results }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="main-page-content-section" id="buildings">
+        <div class="content-container-main-section container">
+            <div class="cardblock-container">
+                <div id="cardblock-title" class="cardblock-title">
+                    {{ data.locale.index.text.title_buildings }}
+                </div>
+                <div class="cardblock-content" id="buildings-div">
+                    {% for element in data.buildings %}
+                    <a id="building-object-{{ element.id }}" href="{{ 'building?building_id=' + element.id|string }}">
+                        <div class="card" >
+                            <div class="card-content">
+
+                                <div class="card-img" style="background-repeat: no-repeat; background-size: cover; background-image: url({{ url_for('static', filename='assets/' + element.type|string + '/' + element.group_id_for_image|string + '/' + element.file_name|string) }})">
+                
+                                </div>
+
+                                <div class="card-text">
+
+                                    <div class="JKName">
+                                        {{ element.name }}
+                                    </div>
+                                    <div class="card-location">
+                                        {{ element.country }}, {{ element.city }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+
+                </div>
+                <div class="card-block-btn">
+                <button 
+                    class='white-blue-btn main-loadmore-btn'
+                    id='main-loadmore-btn'
+                    onclick="buildingsShowMore()"
+                >{{ data.locale.index.buttons.load_more }}</button>
+                </div>
+            </div>
+
+            <div class="builder-block-content" id="builders">
+                <div class="builder-title">
+                    {{ data.locale.index.text.title_builders }}
+                </div>
+                
+                <div class="builder-block-context-container" id="builders-div">
+                    {% for element in data.builders %}
+                    <a id="builder-object-{{ element.id }}" href="{{ 'builder?builder_id=' + element.id|string }}">
+                        <div class="builder-context">
+                            <div class="builder-logo">
+                                <img class="i-img" loading="lazy" src="{{ url_for('static', filename='assets/' + element.type|string + '/' + element.group_id|string + '/' + element.file_name|string) }}"></img>
+                            </div>
+                            <div class="builder-info">
+                                <div class="bi-name"> {{ element.name }}</div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                
+                <div class="builder-link">
+                    <button class='white-blue-btn main-loadmore-btn-Builders' id='builders-show-more-button' onclick="buildersShowMore()">{{ data.locale.index.buttons.load_more }}</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/filter.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/change_lang.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/burgerMenu.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/auth.modal.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/filter.modal.js') }}"></script>
+
+<script src="{{ url_for('static', filename='scripts/any_scripts.js') }}"></script>
+
+{% endblock %}

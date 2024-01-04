@@ -1,0 +1,66 @@
+<div class="modal modal-filter">
+    <div class="filter-modal-window">
+        <div class="filter-modal-window-wrapper">
+            <button class="modal-x-btn" id="filter-modal-x-btn">X</button>
+            <div class="filter-modal-row-wrapper">
+                <div class="filter-modal-row" id="row-first-child">
+                    <button class="filter-button" id='fbHouse'>
+                        <img src='/src/assets/UIsvgs/HouseSvg.svg'></img>
+                        <div class="filter-text">House</div>
+                        <img src='/src/assets/UIsvgs/arrow.svg'></img>
+                    </button>
+                    <div class="filter-modal-row-sqr-wrapper">
+                        <input type="number" class="filter-input-sqr" placeholder="min m2">
+                        <span class="filter-modal-span"></span>
+                        <input type="number" class="filter-input-sqr" placeholder="max m2">
+                    </div>
+                </div>
+                <div class="filter-modal-row">
+                    <button class="filter-button" id='fbRooms'>
+                        <img src='/src/assets/UIsvgs/RoomsSmg.svg'></img>
+                        <div class="filter-text">Room</div>
+                        <img src='/src/assets/UIsvgs/arrow.svg'></img>
+                    </button>
+                    <button class="filter-button" id='fbUsd'>
+                        <img src='/src/assets/UIsvgs/DollarSvg.svg'></img>
+                        <div class="filter-text">USD</div>
+                        <img src='/src/assets/UIsvgs/arrow.svg'></img>
+                    </button>
+                </div>
+            </div>
+            
+            <input 
+            type='text' 
+            class="search-input modal-search-input"
+            placeholder="Enter your search"
+            >
+            </input>
+
+            <div class="rangeslider-container">
+                <div class="rs-wrapper">
+                    <div class="slider" >
+                    <div class="progress" ></div>
+                    </div>
+                    <div class="field field-min">
+                    <input type="number" class="input-min" value="2500">
+                    </div>
+                    <div class="field field-max">
+                    <input type="number" class="input-max" value="7500">
+                    </div>
+                    <div class="range-input" >
+                    <input type="range" class="range-min" min="0" max="10000" value="0" step="100" id="inpmin">
+                    <input type="range" class="range-max" min="0" max="10000" value="10000" step="100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-modal-row search-row">
+                <div class="filter-search-text">
+                    <div class="search-count">580</div>
+                    <div class="search-subtitle">results</div>
+                </div>
+                <button class='blue-btn' id='search1'>Search</button>
+            </div>
+        </div>
+    </div>
+</div>

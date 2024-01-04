@@ -1,0 +1,45 @@
+{
+    "header": {
+        "buttons": {
+            "home": "Home",
+            "about_us": "About us",
+            "lang": "Lang",
+            "--lang-eng": "Eng",
+            "--lang-heb": "Heb",
+            "login": "Log in",
+            "login-form": "Login"
+        },
+        "text": {
+            "login": "Login",
+            "password": "Password",
+            "password-forgot": "Forgot password?",
+            "not-registred": "Are you still not registred?",
+            "registrate": "Registrate"
+        },
+        "input-forms": {
+            "login": "Enter login",
+            "password": "Enter password"
+        }
+    },
+    "bottom": {
+
+    },
+    "index": {
+
+    },
+    "builder": {
+
+    },
+    "building": {
+
+    },
+    "flat": {
+
+    },
+    "about_us": {
+
+    },
+    "map": {
+
+    }
+}

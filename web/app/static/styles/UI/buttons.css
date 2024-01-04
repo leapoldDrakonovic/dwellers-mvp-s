@@ -1,0 +1,501 @@
+@import url(../_constants.css);
+
+/* Buttons */
+
+/* Black-opacity */
+
+.black-opacity-btn {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.612);
+    padding: 6px 10px;
+    border-radius: 11px;
+    transition: 0.2s linear;
+}
+
+/* .black-opacity-btn:hover {
+    background-color: #fff;
+    color: #333;
+
+} */
+
+/* Blue btn */
+
+.blue-btn {
+    color: white;
+    background-color: var(--main-blue);
+    padding: 6px 10px;
+    border-radius: 11px;
+    border: none;
+    height: 40px;
+    width: 119px;
+    transition: 0.2s linear;
+}
+
+.blue-btn:hover {
+    /* color: var(--main-blue); */
+    /* background-color: white; */
+    /* border: 0.2px solid var(--main-blue); */
+    background-color: color(srgb 0 0.26 0.65);
+    /* border: 3px solid color(srgb 0.0411 0.341 0.7971); */
+}
+
+/* White btn */
+
+.white-btn {
+    padding: 5px;
+    border-radius: 11px;
+}
+
+
+
+/* White-blue btn */
+
+.white-blue-btn {
+    background-color: var(--white-blue);
+
+    padding: 6px 10px;
+    border-radius: 11px;
+    border: none;
+    color: var(--main-blue);
+    transition: 0.3s linear;
+    
+}
+
+.white-blue-btn:hover {
+    color: white;
+    background-color: var(--main-blue);
+
+}
+
+/* ID's */
+
+#login-bm {
+    height: 40px;
+    width: 119px;
+}
+
+#login {
+    border: none;
+    height: 40px;
+    width: 119px;
+    font-size: 14px;
+}
+
+
+
+#singin {
+    margin-left: 20px;
+    padding: 6px 10px;
+    border: none;
+    height: 40px;
+    width: 119px;
+    background-color: #fff;
+    transition: 0.2s linear;
+}
+
+#singin:hover {
+    color: white;
+    background-color: var(--main-blue);
+}
+
+
+#search1 {
+
+}
+
+.search-filter-btn {
+    padding: 6px 10px;
+    height: 40px;
+    width: 50px;
+    font-size: 14px;
+    box-shadow: 0px 7px 17px 0px rgba(9, 87, 203, 0.32);
+    border-radius: 50px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+}
+
+.search-filter-btn.reverse {
+    right: auto;
+    left: 0;
+}
+
+.search-subtitle{
+    color: #989898;
+    text-align: center;
+    font-family: "DM Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+#mainMapLink {
+    color: var(--main-blue);
+    font-weight: 800;
+}
+
+.mainMapLink {
+    color: var(--main-blue);
+    font-weight: 800;
+}
+
+
+
+#mainMap {
+
+}
+
+
+.white-blue-btn.main-loadmore-btn  {
+    height: 42px;
+    border-radius: 8px;
+    width: calc(33.33% - 20px);
+    font-size: 16px;
+    font-weight: 500;
+}
+.white-blue-btn.main-loadmore-btn-Builders{
+    height: 42px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    width: 80%;
+}
+
+
+
+/* Filter buttons */
+
+.filter-button-wrapper {
+    position: relative;
+    border-radius: 22.5px;
+    height: 40px;
+    width: 119px;
+    transition: .2s linear;
+    background-color: #f4f4f4;
+}
+
+.map-filter-button-wrapper {
+    position: relative;
+    border-radius: 22.5px;
+    height: 40px;
+    width: 119px;
+    transition: .2s linear;
+    background-color: #f4f4f4;
+}
+
+.filter-button-wrapper:hover {
+    /* background-color: rgba(25, 23, 23, 0.1); */
+}
+
+.filter-button {
+    border-radius: 22.5px;
+    padding: 6px 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+.filter-button:focus {
+    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.512); */
+    outline: 1px solid var(--main-blue);
+}
+
+.filter-btn-inp {
+    display: none;
+}
+
+.filter-text {
+    margin: 0 10px 0 10px;
+    color: #000;
+    font-family: "DM Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+
+
+
+
+
+
+.filter-btn-builder {
+    display: none;
+}
+
+
+
+/* Logic for filter btn */
+
+
+/* For m2 btn */
+
+/* Под кнопку m2 */
+.btn-list-inp.visible {
+    display: block;
+}
+
+.inp-filter {
+    max-width: 90%;
+    background-color: #f4f4f4;
+    outline: none;
+    border: none;
+
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.inp-filter:focus{
+    border: 1px solid var(--main-blue);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.212);
+}
+
+#filter-btn-accept {
+    margin-top: 10px;
+    padding: 7px 10px;
+    width: 100%;
+}
+#filter-btn-clear{
+    margin-top: 10px;
+    padding: 6px 10px;
+    width: 100%;
+}
+
+#filter-btn-clear-price {
+    margin-top: 10px;
+    padding: 6px 10px;
+    width: 100%;
+}
+.btn-list-inp {
+    position: absolute;
+    background-color: #fff;
+    min-width: 80px;
+    max-width: 110px;
+    border-radius: 10px;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    top: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    animation: plavno 0.1s linear;
+    animation-direction: alternate;
+    z-index: 300;
+    overflow: hidden;
+
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.196);
+    
+    display: none;
+
+    padding: 5px;
+}
+
+
+
+/* Else */
+
+.dropdown {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Ids */
+
+#dropdownUsd{
+    z-index: 300;
+}
+#dropdownM2{
+    z-index: 400;
+}
+#dropdownHouse{
+    z-index: 400;
+}
+#dropdownRoom{
+    z-index: 300;
+}
+/* === */
+
+.btn-list {
+    position: absolute;
+    background-color: #fff;
+    min-width: 80px;
+    max-width: 110px;
+    border-radius: 10px;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    animation: plavno 0.1s linear;
+    animation-direction: alternate;
+    overflow: hidden;
+
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.196);
+    
+    display: none;
+
+}
+
+.btn-list.visible {
+    display: block;
+}
+
+.btn-item {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    text-align: center;
+    /* width: 100%; */
+    cursor: pointer;
+}
+
+li.btn-item.text-item {
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-item.text-item > img {
+    width: 40px;
+    height: 25px;
+}
+
+#language-img {
+    width: 40px;
+    height: 25px;
+}
+
+#language-img-bm {
+    width: 40px;
+    height: 25px;
+}
+
+.btn-item:hover {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+
+
+
+#clear-filter-btn {
+    padding: 10px 20px;
+}
+
+
+
+
+
+/* Btn for flat page */
+.flat-page-main-begin-btn {
+    height: 80px;
+    width: 120px;
+
+    padding: 20px;
+    background-color: rgb(0, 0, 0, 0.05);
+
+    transition: .3s linear;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.flat-page-main-begin-btn:hover {
+    background-color: rgb(0, 0, 0, 0.2);
+
+}
+
+#begin-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+}
+
+.btn-list.lang-list {
+    z-index: 100;
+}
+
+.language-button-wrapper {
+    border: none;
+    height: 40px;
+    /* width: 119px; */
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.language-button {
+    border: none;
+    height: 40px;
+    width: 70px;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+.header-admin-btn {
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 14px;
+}
+
+
+
+
+/* Checkboxes */
+
+
+
+.custom-checkbox input {
+    display: none;
+  }
+  
+  /* Стили для контейнера галочки */
+  .custom-checkbox {
+    display: inline-block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    /* border: 1px solid #ddd; */
+    background-color: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  /* Стили для псевдоэлемента, который будет отображать галочку */
+  .custom-checkbox .checkmark {
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--main-blue);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0; /* Изначально скрываем галочку */
+    transition: opacity 0.1s ease-in-out;
+  }
+  
+  /* Стили для псевдоэлемента, который будет отображать галочку после нажатия */
+  .custom-checkbox input:checked + .checkmark {
+    opacity: 1; /* Показываем галочку после нажатия */
+  }

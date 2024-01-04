@@ -1,0 +1,24 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<p style="text-align: center;">Endpoints</p>
+
+{% for endpoint in data.endpoints %}
+
+<div style="border-bottom: 0.5px black solid; margin-bottom: 1px; margin: auto; width: 70%; text-align: center;">
+<p 
+        style="">
+
+        <a href="{{ endpoint[0] }}" 
+        target="_blank" 
+        style="text-decoration: none; cursor: pointer;">
+        {{ endpoint[0] }}</a>
+
+         - {{ endpoint[1] }}
+</p>
+</div>
+
+{% endfor %}
+
+{% endblock %}

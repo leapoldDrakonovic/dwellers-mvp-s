@@ -1,0 +1,230 @@
+{
+    "header": {
+        "buttons": {
+            "home": "Home",
+            "about_us": "About us",
+            "lang": "Language",
+            "__lang_eng": "English",
+            "__lang_heb": "עִברִית",
+            "login": "Login",
+            "logout": "Log out",
+            "admin": "Admin Panel",
+            "login_form": "Login"
+        },
+        "text": {
+            "login": "Login",
+            "password": "Password",
+            "password_forgot": "Forgot password?",
+            "not_registred": "Are you still not registred?",
+            "registrate": "Registrate"
+        },
+        "input_forms": {
+            "login": "Enter login",
+            "password": "Enter password"
+        }
+    },
+    "footer": {
+        "text": {
+            "info": "At Dwellers, we take immense pride in creating a vibrant community exclusively for Israeli developers, where they can come together and showcase their innovative projects and ideas. Our platform is dedicated to providing a space tailored for Israeli developers to connect, collaborate, and inspire each other, fostering a thriving ecosystem that celebrates the boundless creativity of the local tech scene.",
+            "questions": "For all questions:",
+            "mail": "example@israel.com",
+            "search": "Search",
+            "map": "Map",
+            "builders": "Developers",
+            "year": "2023",
+            "company": "Dwellers"
+        }
+    },
+    "index": {
+        "text": {
+            "title": "Index",
+            "nav_search": "Search",
+            "nav_buildings": "Buildings",
+            "nav_builders": "Developers",
+            "real_estate": "real estate",
+            "m2": "m²",
+            "m2_min": "Min m²",
+            "m2_max": "Max m²",
+            "cur_money_type": "Price",
+            "money_type_1": "USD",
+            "money_type_2": "EUR",
+            "money_type_3": "NIS",
+            
+            "house_type_house": "Handover",
+            "house_type_in_process": "In process",
+            "house_type_marketing": "Marketing",
+            "house_type_soon": "Soon",
+            "house_type_all": "All",
+            "house_occupancy": "Occupancy",
+
+            "rooms": "Rooms",
+            "rooms_clear": "Clear",
+
+            "price_min": "Min Price",
+            "price_max": "Max Price",
+
+            "filter_results": "Results",
+            "title_buildings": "Buildings",
+            "title_builders": "Developers",
+            "": ""
+        },
+        "buttons": {
+            "on_map": "Map",
+            "filter": "Filter",
+            "clear_": "Clear",
+            "filter_search": "Search",
+            "load_more": "Load more"
+        },
+        "input_forms": {
+            "search": "Enter your search"
+        }
+    },
+    "builder": {
+        "buttons": {
+            "load_more": "Load more"
+        },
+        "text": {
+            "nav_search": "Search",
+            "nav_popular": "Popular",
+            "nav_about": "About",
+            "sale_start": "Sale start",
+            "about": "About",
+            "popular": "Popular",
+            "studios": "studios",
+            "rooms": "-rooms",
+            "for": "for",
+            "m2": "m²",
+            "more_flats": "View more flats",
+            "foundation_year": "Foundation year",
+            "buildings_completed": "Buildings completed",
+            "in_process": "In Process",
+            "reliable_developer": "Reliable developer"
+        }
+    },
+    "building": {
+        "buttons": {
+            "modal_call_me": "Call Me",
+            "call_back": "Call Back",
+            "gallery": "Gallery"
+        },
+        "text": {
+            "scheme_missing": "The scheme of the apartment is missing",
+            "modal_mail": "Email",
+            "modal_phone": "Phone number",
+            "modal_name": "Name",
+            "nav_search": "Search",
+            "nav_map": "Map",
+            "nav_flats": "Flats",
+            "nav_similar": "Similar",
+            "nav_about": "About",
+            "flats_starting": "Flats starting from",
+            "no_available_flats": "There are no available flats in this building",
+            "parking": "Parking spots",
+            "yes": "Yes",
+            "no": "No",
+            "stage": "Expected occupancy",
+            "area": "Area",
+            "city": "City",
+            "on_map": "Check this building on map",
+            "in_apart": "Apartments in",
+            "studio": "Studio",
+            "room": "-room",
+            "m2": "m²",
+            "plan": "Plan",
+            "go": "Go",
+            "similar": "Similar",
+            "start_from": "Starting from",
+            "about": "About",
+            "foundation_year": "Foundation year",
+            "buildings_completed": "Buildings completed",
+            "in_process": "In Process",
+            "reliable_developer": "Reliable developer"
+        },
+        "input_forms": {
+            "modal_mail": "Enter email",
+            "modal_phone": "Enter phone number",
+            "modal_name": "Enter your name",
+            "modal_surname": "Enter your surname"
+        }
+    },
+    "flat": {
+        "buttons": {
+            "modal_call_me": "Call Me",
+            "to_begin": "To begin",
+            "show_plan": "Show plan",
+            "call_back": "Call Back",
+            "developer": "Developer"
+        },
+        "text": {
+            "scheme_missing": "The scheme of the apartment is missing",
+            "modal_mail": "Email",
+            "modal_phone": "Phone number",
+            "modal_name": "Name",
+            "room_apart": "-room apartment in",
+            "apartments": "Apartments",
+            "by": "by",
+            "m2": "m²",
+            "all": "All",
+            "kitchen": "Kitchen",
+            "bathroom": "Bathroom",
+            "hall": "Hall",
+            "inside": "Inside",
+            "floor": "Floor",
+            "building_on_map": "Building on map",
+            "looking_for_flat": "Looking for flat in",
+            "check_another_flats": "Check another flats",
+            "studio": "Studio",
+            "room": "-room",
+            "plan": "Plan",
+            "go": "Go"
+        },
+        "input_forms": {
+            "modal_mail": "Enter Email",
+            "modal_phone": "Enter phone number",
+            "modal_name": "Enter your name"
+        }
+    },
+    "about_us": {
+        "text": {
+            "title": "About Dwellers",
+            "article_1": "At Dwellers, we take immense pride in creating a vibrant community exclusively for Israeli developers, where they can come together and showcase their innovative projects and ideas. Our platform is dedicated to providing a space tailored for Israeli developers to connect, collaborate, and inspire each other, fostering a thriving ecosystem that celebrates the boundless creativity of the local tech scene.",
+            "pre_article_2": "Our Mission",
+            "article_2": "Our mission at Dwellers is simple yet powerful: we strive to bring Israeli developers closer to their audience, and vice versa, by building a supportive platform that encourages meaningful interactions. We want to break down barriers and make it easy for developers in Israel to share their latest projects, gain valuable feedback, and find inspiration for future endeavors. Through Dwellers, we aim to foster a sense of belonging and empowerment among Israeli developers, while allowing enthusiasts and technology aficionados from the region to discover remarkable creations and engage with the minds behind them.",
+            "pre_article_3": "Why Dwellers?",
+            "article_3": "Exclusive Israeli Community: We are solely focused on providing a platform for Israeli developers to connect, collaborate, and network, offering a unique space to showcase their projects to a local audience. Project Showcase: Dwellers offers Israeli developers the perfect stage to present their new projects. Whether it's a game-changing app, an ingenious software tool, or an artistic masterpiece, we've got the platform to make it shine within the Israeli tech landscape. Interactive Feedback: Feedback is essential for growth. With Dwellers, Israeli developers can receive constructive criticism and encouragement from a diverse and engaged local audience, helping them refine their creations. Inspiration Galore: The Israeli tech scene is a hotbed of innovation, and Dwellers aims to be a wellspring of inspiration for developers and tech enthusiasts within the region. Discover exciting projects from fellow Israeli developers that spark your curiosity and fuel your own creative spark.",
+            "pre_article_4": "Join Dwellers Today!",
+            "article_4_1": "We invite all Israeli developers, coders, engineers, designers, and tech enthusiasts to be a part of the exclusive Dwellers community. Whether you're a seasoned professional or just starting your coding journey, Dwellers offers a space where Israeli talent is celebrated, ideas are exchanged, and collaborations bloom. Together, let's unlock the true potential of the Israeli tech world and bring exceptional projects to life.",
+            "article_4_2": "Thank you for joining us on this exciting journey of exploration, collaboration, and innovation, right here in the heart of Israel. The future of technology is brighter when Israeli developers dwell together at Dwellers.",
+            "article_4_3": "Connect, Create, and Inspire at Dwellers - Your Gateway to the World of Israeli Developers and Their Projects."
+        }
+    },
+    "map": {
+        "buttons": {
+            "search": "Search",
+            "clear_": "Clear"
+        },
+        "text": {
+            "nav_back": "Back",
+            "house": "House",
+            "in_process": "In process",
+            "marketing": "Marketing",
+            "soon": "Soon",
+            "all": "All",
+            "num_of_rooms": "Rooms",
+            "m2": "m²",
+            "m2_min": "Min m²",
+            "m2_max": "Max m²",
+            "clear_": "Clear",
+            "cur_money_type": "USD",
+            "money_type_1": "USD",
+            "money_type_2": "EUR",
+            "money_type_3": "SHE",
+            "studios": "studios",
+            "rooms": "-rooms",
+            "for": "for"
+        },
+        "input_forms": {
+            "enter": "Enter your search"
+        }
+    }
+}

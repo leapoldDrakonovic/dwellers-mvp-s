@@ -1,0 +1,12 @@
+__pycache__
+venv
+.DS_Store
+*.yaml
+docker-compose.yaml
+docs/TODO.md
+docs/sec-docs
+.vscode/
+logs/
+data/psql
+data/redis
+mails.ini

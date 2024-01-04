@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %}>
+    <head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
+    <title>{% block title %}{% endblock %} - Dwellers</title>
+    {% endblock %}
+  </head>
+  <body>
+
+    <div class="modal auth-modal">
+        <div class="auth-modal-window">
+            <div class="auth-modal-window-wrapper">
+                <button class="modal-x-btn" id="auth-x-btn">X</button>
+                <form action="/login" class="auth-modal-window-form" method="POST">
+                    <label for="auth-login-inp" class="login-label">{{ data.locale.header.text.login }}</label>
+                    <input required type="text" name="login" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="auth-modal-window-form-input" id="auth-login-inp" placeholder="{{ data.locale.header.input_forms.login }}">
+                    <br>
+                    <label for="auth-password-inp">{{ data.locale.header.text.password }}</label>
+                    <input required type="password" name="password" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="auth-modal-window-form-input" id="auth-password-inp" placeholder="{{ data.locale.header.input_forms.password }}">
+                    
+                    <div class="auth-modal-window-text">
+                        <div class="auth-modal-window-text-forgot">{{ data.locale.header.text.password_forgot }}</div>
+                        <div class="auth-modal-window-text-register">{{ data.locale.header.text.not_registred }} <a onclick="alert('Soon!');">{{ data.locale.header.text.registrate }}</a></div>
+                    </div>
+                    
+                    <input type="submit" value="{{ data.locale.header.buttons.login }}" class="blue-btn modal-login" id="modal-log-btn">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-menu-popup" id="navPopup">
+        <div class="nav-menu-popup-content">
+            <div class="nav-menu-popup-back">
+                <img loading="lazy" src="{{ url_for('static', filename='assets/BurgerMenu/backArrowBM.svg') }}" alt="">
+            </div>
+            <div class="burger-links">
+                <nav class="header-nav popup-nav">
+                    <ul class="nav-list popup-nav-list">
+                        <li class="nav-item burger-nav-item">
+                            <a href="/">{{ data.locale.header.buttons.home }}</a>
+                        </li>
+                        <li class="nav-item burger-nav-item">
+                            <a href="/about_us">{{ data.locale.header.buttons.about_us }}</a>
+                        </li>
+                        <li class="burger-nav-item">
+                            <a  href='/map?filters={"configs": "fullData", "length": 100}'>{{ data.locale.index.buttons.on_map }}</a>
+                        </li>
+                        {% if session['user'] %}
+                        <li class="burger-nav-item">
+                            <form id="logout-form" action="/logout" method="POST"></form>
+                            <button type="submit" form="logout-form" class="white-blue-btn" id="login-bm">{{ data.locale.header.buttons.logout }}</button>
+                        </li>
+
+                        {% if session['user_role'] %}
+                        {% if session['user_role'] == 'admin' %}
+                        <li class="burger-nav-item">
+                            <button class="white-blue-btn header-admin-btn" ><a href="/admin">{{ data.locale.header.buttons.admin }}</a></button>
+                        </li>
+                        {% endif %}
+                        {% endif %}
+                        {% else %}
+                        
+                        <li class="burger-nav-item">
+                            <button id="login-bm" class="white-blue-btn" data-value='LoginBM'>{{ data.locale.header.buttons.login }}</button>
+                        </li>
+                        {% endif %}
+
+                        <li class="burger-nav-item">
+
+                            <div class="language-button-wrapper">
+                                <div class="dropdown">
+                                    <button class="language-button" id='lang-btn-bm'>
+                                        <img id="language-img-bm" src="{% if request.cookies.__lang == 'HE' %}{{ url_for('static', filename='assets/israel_flag.png') }}{% elif request.cookies.__lang == 'EN' %}{{ url_for('static', filename='assets/britan_flag.png') }}{% elif ' __lang' not in request.cookies %}{{ url_for('static', filename='assets/britan_flag.png') }} {%endif%}" alt="">
+                                    </button>
+                                    
+                                    <ul class="btn-list lang-list">
+                                        <li class="btn-item text-item" data-value="EN"><img src="{{ url_for('static', filename='assets/britan_flag.png') }}" alt="English"></li>
+                                        <li class="btn-item text-item" data-value="HE"><img src="{{ url_for('static', filename='assets/israel_flag.png') }}" alt="Hebrew"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <header class="header" id='header'>
+        <div class="container header-container">
+            <a href="/" class="header-container-link"><img loading="lazy" src="{{ url_for('static', filename='assets/LogoSmall.svg') }}" class="logo"></img></a>
+
+            <div class="header-burger" id="header-burger" style="{% if request.cookies.__lang == 'HE' %}margin-right: auto; margin-left: 0{%endif%}">
+                <div class="nav-menu-popup-icon">
+                    <span class="burger-line long"></span>
+                    <span class="burger-line short"></span>
+                    <span class="burger-line long"></span>
+                </div>
+            </div>
+
+            <nav class="header-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="/">{{ data.locale.header.buttons.home }}</a></li>
+                    <li class="nav-item"><a href="/about_us">{{ data.locale.header.buttons.about_us }}</a></li>
+                    <li class="nav-item" id="mainMap"><a id="mainMapLink" href='/map?filters={"configs": "fullData", "length": 100}'>{{ data.locale.index.buttons.on_map }}</a></li>
+                </ul>
+            </nav>
+
+            <div class="{% if request.cookies.__lang == 'HE' %}header-btns reverse{% else %}header-btns{% endif %}">
+                <div class="language-button-wrapper">
+                    <div class="dropdown">
+                        <button class="language-button" id='lang-btn'>
+                            <img loading="lazy" id="language-img" src="{% if request.cookies.__lang == 'HE' %}{{ url_for('static', filename='assets/israel_flag.png') }}{% elif request.cookies.__lang == 'EN' %}{{ url_for('static', filename='assets/britan_flag.png') }}{% elif ' __lang' not in request.cookies %}{{ url_for('static', filename='assets/britan_flag.png') }} {%endif%}" alt="">
+                        </button>
+                        
+                        <ul class="btn-list lang-list">
+                            <li class="btn-item text-item" data-value="EN"><img loading="lazy" src="{{ url_for('static', filename='assets/britan_flag.png') }}" alt="English"></li>
+                            <li class="btn-item text-item" data-value="HE"><img loading="lazy" src="{{ url_for('static', filename='assets/israel_flag.png') }}" alt="Hebrew"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                {% if session['user'] %}
+                <li class="burger-nav-item">
+                    <form id="logout-form" action="/logout" method="POST"></form>
+                    <button type="submit" form="logout-form" class="white-blue-btn" id="login">{{ data.locale.header.buttons.logout }}</button>
+                </li>
+                {% if session['user_role'] %}
+                {% if session['user_role'] == 'admin' %}
+                <li class="burger-nav-item">
+                    <button class="white-blue-btn header-admin-btn" ><a href="/admin">{{ data.locale.header.buttons.admin }}</a></button>
+                </li>
+                {% endif %}
+                {% endif %}
+                {% else %}
+                <li class="burger-nav-item">
+                    <button id="login" class="white-blue-btn" data-value='Login'>{{ data.locale.header.buttons.login }}</button>
+                </li>
+                {% endif %}
+            </div>
+        </div>
+    </header>    
+
+        {% block content %}{% endblock %}
+    
+        
+    
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-container-flex">
+                <div class="footer-title-block">
+                    <div class="title-description">{{ data.locale.footer.text.info }}</div>
+                    <div class="title-email">{{ data.locale.footer.text.questions }} <a class="title-email-link" href="mailto: {{ data.locale.footer.text.mail }}">{{ data.locale.footer.text.mail }}</a></div>
+                </div>
+                <div class="footer-links-block">
+                    <div class="footer-links-item second-header-nav-item"><a href="/#search">{{ data.locale.footer.text.search }}</a></div>
+                    <div class="footer-links-item second-header-nav-item"><a href='/map?filters={"configs": "fullData", "length": 100}'>{{ data.locale.footer.text.map }}</a></div>
+                    <div class="footer-links-item second-header-nav-item"><a href="/about_us">{{ data.locale.header.buttons.about_us }}</a></div>
+                </div>
+            </div>
+            <div class="footer-logo-block" dir="ltr">
+                {{ data.locale.footer.text.year }} {{ data.locale.footer.text.company }}
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+
+  </body>
+</html>

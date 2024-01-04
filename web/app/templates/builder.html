@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %} {{ data.builders.name }} {% endblock %}
+
+{% block content %}
+    <nav class="second-header-nav">
+        <div class="second-header-container container">
+            <div class="second-header-content">
+                <ul class="second-header-nav-list">
+                    <li class="second-header-nav-item"><a href="/#search">{{ data.locale.builder.text.nav_search }}</a></li>
+                    <li class="second-header-nav-item"><a href="#popular">{{ data.locale.builder.text.nav_popular }}</a></li>
+                    <li class="second-header-nav-item"><a href="#about">{{ data.locale.builder.text.nav_about }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="builder-slider-section">
+
+        <div class="builder-page-slider-wrapper">
+            <div class="slider">
+                {% for building in data.slides_buildings %}
+                <div class="slide">
+                    <div class="slide-bcg" style="background-image: url({{ url_for('static', filename='assets/' + building.type|string + '/' + building.group_id_for_image|string + '/' + building.file_name|string) }})">
+                        <div class="slider-content">
+                            <div class="builder-slider-title">{{ building.name }}</div>
+                            <div class="builder-slider-subtitle">{{ data.locale.builder.text.sale_start }}</div>
+                            <a class='builder-slider-btn black-opacity-btn' href="{{ 'building?building_id=' + building.id|string }}">{{ data.locale.builder.text.about }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </section>
+
+    <section class="builder-popular-jk" id="popular">
+        <div class="builder-popular-jk-content">
+            <div class="builder-popular-jk-container container">
+                <div class="jk-filter-title">
+                    {{ data.locale.builder.text.popular }}
+                </div>
+                
+                <div id="builder-buildings" class="builder-popular-jk-card-wrapper">
+                    {% for building in data.slides_buildings %}
+                    <a id="builder-{{ data.builders.id }}-object-{{ building.id }}" href="{{ 'building?building_id=' + building.id|string }}">
+                        
+                        <div class="builder-page-card">
+                            <div class="builder-page-card-img">
+                                <img loading="lazy" src="{{ url_for('static', filename='assets/' + building.type|string + '/' + building.group_id_for_image|string + '/' + building.file_name|string) }}" alt="">
+                            </div>
+                            {% set limit_check = [0] %}
+                            <div class="builder-page-card-textcontent">
+                                <div class="builder-page-card-title">
+                                    {{ building.name }}
+                                </div>
+                                <div class="builder-page-card-adress">
+                                    {{ building.address }}
+                                </div>
+                                <div class="builder-page-card-flatlist">
+                                    {% for grouped_flats_id, flats in building.grouped_flats.items() %}
+                                    <div class="card-flatlist-object">
+                                        {% if limit_check[0] < 5 %}
+                                        {% if grouped_flats_id == 0 %}
+                                        <div class="card-flatlist-title">{{ data.locale.builder.text.studios }}</div>
+                                        {% else %}
+                                        <div class="card-flatlist-title">{{ grouped_flats_id }}{{ data.locale.builder.text.rooms }}</div>
+                                        {% endif %}
+                                        {% if flats[-1]['min_m2_value'] and flats[-1]['min_price_value'] %}
+                                        <div class="card-flatlist-square">{{ data.locale.builder.text.for }} {{ flats[-1]['min_m2_value'] }} {{ data.locale.builder.text.m2 }}</div>
+                                        <div class="card-flatlist-price">{{ data.locale.builder.text.for }} $<span class='price'>{{ flats[-1]['min_price_value'] }}</span></div>
+                                        {% else %}
+                                        <div class="card-flatlist-square">{{ data.locale.builder.text.for }} {{ flats[0]['min_m2_value'] }} {{ data.locale.builder.text.m2 }}</div>
+                                        <div class="card-flatlist-price">{{ data.locale.builder.text.for }} $<span class='price'>{{ flats[0]['min_price_value'] }}</span></div>
+                                        {% endif %}
+                                        {% if limit_check.append(limit_check.pop() + 1) %}{% endif %}
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% if building.grouped_flats.keys()|length > 5 %}
+                                <div class="builder-page-card-more">
+                                    {{ data.locale.builder.text.more_flats }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                
+                {% if not data.more_buildings_button_off %}
+                <div onclick="buildingsSameBuilderShowMore()" class="builder-page-loadmore-btn">
+                    <button id="builders-loadmore-buildings-btn" class="white-blue-btn loadmore-btn ">{{ data.locale.builder.buttons.load_more }}</button>
+                </div>
+                {% else %}
+                <div class="builder-page-loadmore-btn"></div>
+                {% endif %}
+                
+                <div class="builder-page-about-builder" id="about">
+                    <div class="about-builder-content container">
+                        <div class="about-builder-left-colum">
+                            <div class="about-builder-title">{{ data.locale.builder.text.about }} {{ data.builders.name }}</div>
+                            <div class="about-builder-description">{{ data.builders.info }}</div>
+                        </div>
+                        <div class="about-builder-right-colum">
+                            <div class="about-builder-right-colum-text">
+                                <div class="about-builder-year">
+                                    <div class="about-builder-year-title">{{ data.builders.foundation_year }}</div>
+                                    <div class="about-builder-year-description">{{ data.locale.builder.text.foundation_year }}</div>
+                                </div>
+                                <div class="about-builder-done-proj">
+                                    <div class="about-builder-done-proj-title">{{ data.builders.completed_projects }}</div>
+                                    <div class="about-builder-done-proj-description">{{ data.locale.builder.text.buildings_completed }}</div>
+                                </div>
+                                <div class="about-builder-inprocess">
+                                    <div class="about-builder-inprocess-title">{{ data.builders.projects_in_process }}</div>
+                                    <div class="about-builder-inprocess-description">{{ data.locale.builder.text.in_process }}</div>
+                                </div>
+                            </div>
+                            <div class="about-builder-right-colum-btn">
+                                <img loading="lazy" src="{{ url_for('static', filename='assets/GalkaForBuilder.svg') }}" alt="" style="width: 29px; height: 29px;">
+                                {% if data.builders.trusted %}
+                                <div class="about-builder-right-colum-btn-text">
+                                    {{ data.locale.builder.text.reliable_developer }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='scripts/change_lang.js') }}"></script>
+
+<script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/builderPageSlider.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/burgerMenu.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/auth.modal.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/any_scripts.js') }}"></script>
+
+{% endblock %}

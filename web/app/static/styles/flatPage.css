@@ -1,0 +1,432 @@
+.flat-page-main-section {
+    position: relative;
+    width: 90%;
+    height: 90vh;
+
+    max-height: 700px;
+
+    margin: 0 auto;
+}
+
+.flat-page-main-section-bgi {
+    /* width: 100%; */
+    height: 90%;
+
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%), url("/src/assets/apartBgi.jpg");
+    /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
+    border-radius: 5px 5px 5px 5px;
+    /* background-size: cover; */
+
+    z-index: 30px;
+    padding: 80px 20px 0px 20px;
+}
+
+.flat-page-main-section-container {
+    width: 100%;
+    height: 100%;
+}
+
+.flat-page-main-section-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.flat-page-main-section-content-upBlock {
+    display: flex;
+    /* vertical-align: top; */
+    justify-content: space-between;
+}
+
+.flat-page-main-section-content-upBlock-title {    
+    font-size: 48px;
+    line-height: 183.2%;
+    /* or 88px */
+    color: #FFFFFF;
+    padding-right: 20px;
+}
+
+.flat-page-upBlock-plan-btn {
+    display: none;
+}
+
+.flat-page-main-section-content-upBlock-plan {
+    width: 486px;
+    height: 332px;
+    cursor: pointer;
+}
+
+.flat-page-main-section-content-upBlock-plan img {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: fill;
+}
+
+.flat-page-main-section-content-downBlock {
+    max-width: 1270px;
+    width: 100%;
+    z-index: 50;
+
+    position: absolute;
+    bottom: -10%;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.flat-page-main-section-content-downBlock-slider {}
+
+.flat-page-main-section-content-downBlock-pricebox {    
+    background-color: #fff;
+    max-width: 394px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 46px;
+
+    border-radius: 10px;
+    margin-left: 20px;
+}
+
+.flat-page-main-section-pricebox-price {
+    width: 100%;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 183.2%;
+}
+
+.flat-page-main-section-pricebox-adress {
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 183.2%;
+    /* or 29px */
+
+    margin-bottom: 15px;
+}
+
+.flat-page-main-section-pricebox-btns-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.flat-page-main-section-pricebox-btn {
+    width: 190px !important;
+}
+
+.flat-page-main-section-content-downBlock-slider {}
+
+.flat-page-slider-wrapper {
+    height: 100px;
+    width: 400px;
+    /* border: 1px solid white; */
+}
+
+.flat-page-slider-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.flat-page-slider-container::-webkit-scrollbar {
+    display: none;
+}
+
+.flat-page-slider-slide {
+    width: 90px;
+    height: 60px;
+    margin: 0 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .1s linear;
+}
+
+.flat-page-slider-slide.third {
+    width: 70px;
+    height: 50px;
+}
+
+.flat-page-slider-slide img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.flat-page-slider-slide.active {
+    width: 110px;
+    height: 70px;
+    /* transform: scale(1.15); */
+    border:  2px solid #0957CB;
+}
+
+/* Info Block */
+
+.flat-page-info {
+    margin-top: 40px;
+}
+
+.flat-page-info-container {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {}
+
+.flat-page-info-about {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.flat-page-info-about-element {
+    padding: 0 4%;
+    min-width: fit-content;
+}
+
+.flat-page-info-about-element-title,
+.flat-page-info-about-element-subtitle {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 183.2%;
+    /* or 29px */
+
+    text-align: center;
+}
+
+
+
+.flat-page-info-about-element:not(:last-child) {
+    border-right: 1px solid #333;
+}
+
+.flat-page-info-about-element:first-child {
+    border-right: 1px solid #333;
+}
+
+
+.flat-page-info-about-element.reverse:first-child {
+    border-right: 0;
+}
+
+.flat-page-info-about-element.reverse:last-child {
+    border-right: 1px solid #333;
+}
+
+
+
+/* Section About on Flat page */
+
+.flat-page-about-apartment {
+    /* margin-bottom: 130px; */
+    margin-top: 110px
+}
+
+.flat-page-about-apartment-wrapper {
+    width: 50%;
+}
+
+.flat-page-about-apartment-container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+}
+
+.container {
+
+}
+
+.flat-page-about-apartment-title {
+    /* margin-top: 50px; */
+    font-size: 30px;
+    line-height: 183.2%;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row; /* через inline пробелы ставятся, но тогда нет отступа от верхнего блока */
+    flex-wrap: wrap;
+}
+
+.flat-page-about-apartment-title a {
+    color: var(--main-blue)
+}
+
+.flat-page-about-apartment-title a:after {
+    cursor: pointer;
+    content: "";
+    display: block;
+    width: 0%;
+    height: 2px;
+    background-color: var(--main-blue);
+    transition: 0.2s linear;
+    margin-top: 2px;
+}
+
+.flat-page-about-apartment-title a:hover::after {
+    content: "";
+    width: 100%;
+}
+
+.flat-page-about-apartment-gap{
+    display: flex; 
+    gap: 8px;
+}
+
+.flat-page-about-apartment-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flat-page-about-apartment-description {
+    flex: 1 1 50%;
+    padding-right: 20px;
+    height: 200px;
+    overflow-y: scroll;
+    text-align: justify;
+}
+
+.flat-page-about-apartment-blocks {
+    display: flex;
+    align-items: end;
+
+    flex-direction: column;
+    flex: 1 1 40%;
+}
+
+.blocks-sale-block {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(273.61deg, rgba(9, 61, 203, 0.2) -13.84%, rgba(0, 0, 0, 0) 115.96%), #FFFFFF;
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
+    margin-bottom: 30px;
+}
+
+.blocks-sale-block-title {
+    margin-left: 30px;
+    font-size: 20px;
+    line-height: 183.2%;
+    text-transform: uppercase;
+}
+
+.blocks-cashback-block {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(273.61deg, rgba(9, 61, 203, 0.2) -13.84%, rgba(0, 0, 0, 0) 115.96%), #FFFFFF;
+    box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
+}
+
+.blocks-cashback-block-title {
+    margin-left: 30px;
+    font-size: 20px;
+    line-height: 183.2%;
+    text-transform: uppercase;
+}
+
+.blocks {
+    width: 100%;
+    max-width: 516px;
+    height: 100px;
+    transition: .2s linear;
+    cursor: pointer;
+}
+
+.blocks:hover {
+    background-color: rgba(51, 51, 51, 0.242);
+    color: #fff;
+}
+
+/* Flat Additinal Section on Flat page */
+
+.flat-page-additional {}
+
+.flat-page-additional-container {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 90%;
+}
+.flat-page-additional-element {
+    width: 400px;
+    height: 300px;
+
+    position: relative;
+    cursor: pointer;
+}
+
+.flat-page-additional-element-bgi {
+    width: 100%;
+    height: 100%;
+    /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)); */
+    background-image: url(/src/assets/bgi.jpg);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0px 2px 40px rgba(0, 0, 0, 0.25);
+    transition: .2s linear;
+}
+
+.flat-page-additional-element-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%,-50%);
+    z-index: 2;
+
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0);
+    transition: .5s linear;
+}
+
+.flat-page-additional-element:hover> .flat-page-additional-element-bgi{
+    filter: blur(2px) drop-shadow(0px 2px 10px rgba(0, 0, 0, 0.25));
+}
+
+.flat-page-additional-element:hover>.flat-page-additional-element-title {
+    color: #fff;
+    filter: none;
+}
+
+/* Flat Page map on Flat Page */
+
+.flat-page-map {
+    margin-top: 90px;
+}
+.flat-page-map-wrapper {}
+
+.flat-page-map-title {
+    margin: 0 auto;
+    font-size: 32px;
+    max-width: 1270px;
+    padding: 0 10px;
+    margin-bottom: 30px;
+}
+
+.flat-page-map-map {
+    height: 500px;
+}
+
+.flat-page-map-map img {
+    width: 100%;
+    height: 500px;
+}
+
+/* Flatlist On FlatPage */
+
+.flat-page-flatlist-section{
+    margin-top: 100px;
+}
+
+.flat-page-flatlist-title {
+    font-size: 30px;
+}

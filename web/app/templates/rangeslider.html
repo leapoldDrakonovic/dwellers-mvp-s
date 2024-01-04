@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">  
+    <title></title>
+    <link rel="stylesheet" href="/src/style/UI/rangeslider.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="rs-wrapper">
+      <div class="slider">
+        <div class="progress"></div>
+      </div>
+      <div class="field field-min">
+        <input type="number" class="input-min" value="0">
+      </div>
+      <div class="field field-max">
+        <input type="number" class="input-max" value="10000">
+      </div>
+      <div class="range-input">
+        <input type="range" class="range-min" min="0" max="10000" value="0" step="100" id="inpmin">
+        <input type="range" class="range-max" min="0" max="10000" value="10000" step="100">
+      </div>
+    </div>
+    <script src="/src/script/rs.js"></script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+/* Card small */
+
+
+.card {
+    width: 300px;
+    
+    flex-grow: 1;
+    height: 280px;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+    box-shadow: 0px 21px 43px rgba(0, 0, 0, 0.12);
+    /* margin: 20px; */
+    cursor: pointer;
+    transition: .2s linear;
+}
+
+.card:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 21px 43px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+
+}
+
+.card-img {
+    border-radius: 8px 8px 0 0;
+    height: 165px;
+    width: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+    background-image: url("/src/assets/UIsvgs/CardImg.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+
+.card-text {
+    padding: 17.5px 20px;
+}
+
+.JKName {
+    color: #0065D9;
+    margin-bottom: 10px;
+}
+
+.card-price {
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.card-location {
+    color: var(--main-grey);
+}

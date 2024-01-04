@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/UI/rangeslider.css') }}">
+{% endblock %}
+
+{% block title %} {{ data.locale.about_us.text.title }} {% endblock %}
+
+{% block content %}
+<div class="about-us-content">
+    <div class="about-us-content-container container">
+        <section class="about-us-section section-preview">
+            <div class="section-preview-text">
+                <p>{{ data.locale.about_us.text.article_1 }}</p>
+            </div>
+        </section>
+        <section class="about-us-section section-mission">
+            <div class="about-us-section-title section-mission-title">{{ data.locale.about_us.text.pre_article_2 }}</div>
+            <div class="about-us-section-text section-mission-text">
+                <p>{{ data.locale.about_us.text.article_2 }}</p>
+            </div>
+        </section>
+        <section class="about-us-section section-why">
+            <div class="about-us-section-title section-why-title">{{ data.locale.about_us.text.pre_article_3 }}</div>
+            <div class="about-us-section-text section-why-text">
+                <p>
+                    {{ data.locale.about_us.text.article_3 }}
+                </p>
+            </div>
+        </section>
+        <section class="about-us-section section-join">
+            <div class="about-us-section-title section-join-title">{{ data.locale.about_us.text.pre_article_4 }}</div>
+            <div class="about-us-section-text section-join-text">
+                <p>{{ data.locale.about_us.text.article_4_1 }}</p>
+                <p>{{ data.locale.about_us.text.article_4_2 }}</p>
+                <p>{{ data.locale.about_us.text.article_4_3 }}</p>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='scripts/change_lang.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/burgerMenu.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/component/modals/filter.modal.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/auth.modal.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/gallery.modal.js') }}"></script>
+
+{% endblock %}

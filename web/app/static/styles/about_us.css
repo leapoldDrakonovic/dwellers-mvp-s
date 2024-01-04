@@ -1,0 +1,53 @@
+.about-us-content {
+    padding: 5px;
+}
+.about-us-content-container {
+}
+.about-us-section {
+    margin-bottom: 80px;
+}
+.section-preview {
+    margin-top: 50px;
+}
+.section-preview-text {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.section-preview-text>p{
+    text-align: justify;
+}
+.section-mission {
+}
+.about-us-section-title {
+    font-size: 48px;
+    color: var(--main-blue);
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+.section-mission-title {
+}
+.about-us-section-text {
+    font-size: 20px;
+    line-height: 30px;
+    text-align: justify;
+
+}
+.section-mission-text {
+}
+.section-why {
+}
+.section-why-title {
+}
+.section-why-text {
+}
+.section-join {
+}
+.section-join-title {
+}
+.section-join-text {
+}
+
+.section-join-text>p {
+    margin-bottom: 35px;
+}

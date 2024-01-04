@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+
+
+{% endblock %}
+
+{% block title %} Index {% endblock %}
+
+{% block content %}
+    <div class="modal modal-plan-static" >
+        <div class="flatplan-modal-window">
+            <div class="flatplan-modal-window-wrapper">
+                <img loading="lazy" src="../static/assets/Plan.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal modal-callback">
+        <div class="modal-callback-wrapper">
+            <button class="modal-x-btn" id="modal-callback-x">X</button>
+            <div class="callback-logo">
+                <img loading="lazy" src="{{ url_for('static', filename='assets/Logo.svg') }}" alt="Dwellers Co">
+            </div>
+            <div class="callback-form">
+                <div class="callback-name-container">
+                    <input id="name-input" type="text" placeholder="{{ data.locale.building.input_forms.modal_name }}" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="callback-form-input">
+                    <input id="surname-input" type="text" placeholder="{{ data.locale.building.input_forms.modal_surname }}" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="callback-form-input">
+                </div>
+
+                <div class="callback-container">
+                    <input id="email-input" type="email" placeholder="{{ data.locale.building.input_forms.modal_mail }}" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="callback-form-input">
+                    <br>
+                    
+                    <input id="number-input" type="number" placeholder="{{ data.locale.building.input_forms.modal_phone }}" {% if request.cookies.__lang == 'HE' %}dir='rtl'{% endif %} class="callback-form-input">
+                    <br>
+                </div>
+                
+                
+                <textarea name="callback-description" id="callback-description" cols="30" rows="10" placeholder='Enter description' ></textarea>
+
+                <input type="text" id="builder-id-value" value="{{ data.builder.id }}" style="display: none; opacity: 0;">
+                <input type="text" id="building-id-value" value="{{ data.building.id }}" style="display: none; opacity: 0;">
+                <button onclick="sendCallBackMail()" id="callback-button" class="blue-btn modal-callback-btn">{{ data.locale.building.buttons.modal_call_me }}</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="flat-page-main-section">
+        <button style="display: none;" class="flat-page-main-begin-btn" id="begin-btn">{{ data.locale.flat.buttons.to_begin }}</button>
+        {% if data.flat_images %}
+        <div class="flat-page-main-section-bgi" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%), url('{{ url_for('static', filename='assets/' + data.flat_images[0].type|string + '/' + data.flat_images[0].group_id_for_image|string + '/' + data.flat_images[0].file_name|string) }}'); background-repeat: no-repeat; background-size: cover; background-position: center;">
+        {% else %}
+        <div class="flat-page-main-section-bgi" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%); background-repeat: no-repeat; background-size: cover; background-position: center;">
+        {% endif %}
+            <div class="flat-page-main-section-container container">
+                <div class="flat-page-main-section-content">
+
+
+                    <div class="flat-page-main-section-content-upBlock">
+                        <div class="flat-page-main-section-content-upBlock-title">{{ data.flat.rooms }}{{ data.locale.flat.text.room_apart }} {{ data.building.name }}</div>
+                        <button class="flat-page-upBlock-plan-btn blue-btn" id="showPlan-btn" onclick="alert('Sorry, not avalible now')">{{ data.locale.flat.buttons.show_plan }}</button>
+                        <div class="flat-page-main-section-content-upBlock-plan">
+                            {% for image in data.flat_images %}
+                            {% if image.file_name.startswith('plan') %}
+                            <img loading="lazy" src="{{ url_for('static', filename='assets/' + image.type|string + '/' + image.group_id_for_image|string + '/' + image.file_name|string) }}" alt="">
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                    <div class="flat-page-main-section-content-downBlock">
+                        <div class="flat-page-main-section-content-downBlock-slider">
+                            <div class="flat-page-slider-wrapper">
+                                <div class="flat-page-slider-container">
+                                    {% for image in data.flat_images %}
+                                    <img loading="lazy" class="flat-page-slider-slide" src="{{ url_for('static', filename='assets/' + image.type|string + '/' + image.group_id_for_image|string + '/' + image.file_name|string) }}" alt="">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="flat-page-main-section-content-downBlock-pricebox">
+                            <div class="flat-page-main-section-pricebox-price">$<span class="price">{{ data.flat.price }}</span></div>
+                            <div class="flat-page-main-section-pricebox-adress">{{ data.building.address }}</div>
+                            <div class="flat-page-main-section-pricebox-btns-container">
+                                <button class="flat-page-main-section-pricebox-btn blue-btn">
+                                    <a href="/builder?builder_id={{ data.builder.id }}">{{ data.locale.flat.buttons.developer }}</a>
+                                </button>
+                                <button class="flat-page-main-section-pricebox-btn blue-btn" id="callback-btn">{{ data.locale.flat.buttons.call_back }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="flat-page-about-apartment">
+        <div class="flat-page-about-apartment-container container">
+            
+            <div class="flat-page-about-apartment-wrapper">
+                <div class="flat-page-about-apartment-title flat-page-about-apartment-gap">
+                    <div class="flat-page-about-apartment-gap">{{ data.locale.flat.text.apartments }} 
+                        <a href="/building?building_id={{ data.building.id }}"> {{ data.building.name }}</a>
+                    </div> 
+                    <div class="flat-page-about-apartment-gap">{{ data.locale.flat.text.by }} 
+                        <a href="/builder?builder_id={{ data.builder.id }}">{{ data.builder.name }}</a>
+                    </div>
+                    
+                </div>
+    
+                <div class="flat-page-about-apartment-content-wrapper">
+                    <div class="flat-page-about-apartment-description">
+                        {{ data.builder.info }}
+                    </div>
+    
+                
+        
+                </div>
+            </div>
+
+
+            <div class="flat-page-info-container ">
+                <div class="flat-page-info-about ">
+                    <div class="flat-page-info-about-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                        <div class="flat-page-info-about-element-title">{{ data.flat.all_size_m2 }} {{ data.locale.flat.text.m2 }}</div>
+                        <div class="flat-page-info-about-element-subtitle">{{ data.locale.flat.text.all }}</div>
+    
+                    </div>
+    
+                    <div class="flat-page-info-about-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                        <div class="flat-page-info-about-element-title">{{ data.flat.kitchen_size_m2 }} m²</div>
+                        <div class="flat-page-info-about-element-subtitle">{{ data.locale.flat.text.kitchen }}</div>
+    
+                    </div>
+    
+                    <div class="flat-page-info-about-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                        <div class="flat-page-info-about-element-title">{{ data.flat.bathroom_size_m2 }} m²</div>
+                        <div class="flat-page-info-about-element-subtitle">{{ data.locale.flat.text.bathroom }}</div>
+    
+                    </div>
+    
+                    <div class="flat-page-info-about-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                        <div class="flat-page-info-about-element-title">{{ data.flat.hall_size_m2 }} m²</div>
+                        <div class="flat-page-info-about-element-subtitle">{{ data.locale.flat.text.hall }}</div>
+    
+                    </div>
+    
+                    <div class="flat-page-info-about-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                        <div class="flat-page-info-about-element-title">{{ data.flat.inside_size_m2 }} m²</div>
+                        <div class="flat-page-info-about-element-subtitle">{{ data.locale.flat.text.inside }}</div>
+    
+                    </div>
+    
+                    <div class="flat-page-info-about-element {% if request.cookies.__lang == 'HE' %}reverse{% endif %}">
+                        <div class="flat-page-info-about-element-title">{{ data.flat.floor }}</div>
+                        <div class="flat-page-info-about-element-subtitle">{{ data.locale.flat.text.floor }}</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        
+        </div>
+    </section>
+
+    <section class="flat-page-map">
+        <div class="flat-page-map-wrapper">
+            <div class="flat-page-map-title">{{ data.locale.flat.text.building_on_map }}</div>
+            <div id="flat-page-map-map" class="flat-page-map-map"></div>
+        </div>
+    </section>
+
+    <div class="flat-page-flatlist-section">
+        <div class="flat-page-flatlist-container container">
+            <div class="flat-page-flatlist-title">
+                {{ data.locale.flat.text.looking_for_flat }} {{ data.building.name }}? {{ data.locale.flat.text.check_another_flats }}
+            </div>
+            
+            <div class="apartment-flatlist-wrapper" id="popular">
+                {% for grouped_flats_id, flats in data.grouped_another_flats.items() %}
+                {% for flat in flats %}
+                {% if flat.id != data.flat.id %}
+                <div class="apartment-flatlist-element">
+                    <div class="plan-wrapper">
+                        <img loading="lazy" src="{{ url_for('static', filename='assets/' + flat.type|string + '/' + flat.group_id_for_image|string + '/' + flat.file_name|string) }}" alt="{{ data.locale.flat.text.scheme_missing }}">
+                    </div>
+                    {% if grouped_flats_id == 0 %}
+                    <div class="apartment-flatlist-element-rooms">{{ data.locale.flat.text.studio }}</div>
+                    {% else %}
+                    <div class="apartment-flatlist-element-rooms">{{ grouped_flats_id }}{{ data.locale.flat.text.room }}</div>
+                    {% endif %}
+                    <div class="apartment-flatlist-element-price">$<span class="price">{{ flat.price }}</span></div>
+                    <div class="apartment-flatlist-element-sqrt">{{ flat.all_size_m2 }} {{ data.locale.flat.text.m2 }}</div>
+                    <div class="apartment-flatlist-element-plan">{{ data.locale.flat.text.plan }}</div>
+                    <div class="apartment-flatlist-element-flats" style="color: blue; cursor: pointer;">
+                        <div class="apartment-flatlist-element-href"  style="color: blue; cursor: pointer;">
+                            <a class="apartment-flatlist-element-href-a" href="/flat?flat_id={{ flat.id }}">{{ data.locale.flat.text.go }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}                    
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+<!--
+<script src="https://api-maps.yandex.ru/2.1/?lang=en_US&amp;apikey=<ваш API-ключ>" type="text/javascript"></script>
+<script>
+    ymaps.ready(init);
+
+    function init() {
+    window.map = new ymaps.Map("flat-page-map-map", {
+        center: [{{ data.building.coord_x }}, {{ data.building.coord_y }}],
+        zoom: 15
+    });
+
+    window.map.geoObjects.add(new ymaps.Placemark([{{ data.building.coord_x }}, {{ data.building.coord_y }}], {}, {}));
+
+    // controls rools:
+    window.map.controls.remove('geolocationControl'); 
+    window.map.controls.remove('searchControl');
+    window.map.controls.remove('trafficControl'); 
+    window.map.controls.remove('typeSelector'); 
+    window.map.controls.remove('fullscreenControl'); 
+    window.map.controls.remove('zoomControl'); 
+    window.map.controls.remove('rulerControl'); 
+    
+    // behaviors rools:
+    // window.map.behaviors.disable(['scrollZoom']); 
+}
+    
+</script>
+-->
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZHdlbGxlcnNjb3JwIiwiYSI6ImNsbGNoY24wMjAxZngzZG56NnJ6bnZsMzQifQ.EVqKELsfXagEQ43V7pd_vQ';
+  var map = new mapboxgl.Map({
+    
+    container: 'flat-page-map-map',
+    style: 'mapbox://styles/dwellerscorp/clldvi9c3011701qp426hfxxe',
+    center: [{{ data.building.coord_y }}, {{ data.building.coord_x }}],
+    zoom: 15
+  });
+
+  const marker = new mapboxgl.Marker({
+    draggable: false
+    }).setLngLat([{{ data.building.coord_y }}, {{ data.building.coord_x }}])
+    .addTo(map);
+
+</script>
+
+<script src="{{ url_for('static', filename='scripts/change_lang.js') }}"></script>
+
+<script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/flatSlider.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/burgerMenu.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/auth.modal.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/components/modals/callback.modal.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='scripts/components/modals/plan.modal.js') }}"></script>-->
+
+{% endblock %}

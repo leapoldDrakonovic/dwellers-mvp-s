@@ -1,0 +1,54 @@
+/* Reset css*/
+
+
+* {
+    padding: 0;
+    margin: 0;
+
+}
+
+body {
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+li, ul {
+    list-style-type: none;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    min-width: calc(33.33% - 20px);
+    /* font-size: 14px; */
+}
+.apartment-similar-card-wrapper a {
+    text-decoration: none;
+    color: inherit;
+    /* min-width: calc(33.33% - 20px); */
+    /* font-size: 14px; */
+}
+
+.header-container-link{
+    text-decoration: none;
+    color: inherit;
+    font-size: 14px;
+    min-width: 0;
+}
+.cardblock-content a {
+    text-decoration: none;
+    color: inherit;
+    /* min-width: calc(33.33% - 30px); */
+}
+
+
+.container {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0 5px;
+}
